@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="node" />
 import { IRectLike } from '../../../../../@types/private';
 declare class NativeWindow {
     handler: number;
@@ -36,4 +37,3 @@ declare class NativeScene {
 }
 declare const _default: NativeScene;
 export default _default;
-//# sourceMappingURL=native-scene.d.ts.map

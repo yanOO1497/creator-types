@@ -39,4 +39,3 @@ declare class GameviewSceneProxy extends SceneProxy {
     getRootNode(): Node;
 }
 export default GameviewSceneProxy;
-//# sourceMappingURL=gameview-scene-proxy.d.ts.map

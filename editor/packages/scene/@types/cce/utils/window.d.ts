@@ -4,4 +4,3 @@ import type { ISizeLike } from 'cc';
  * @returns
  */
 export declare function getMainWindowSize(): ISizeLike;
-//# sourceMappingURL=window.d.ts.map

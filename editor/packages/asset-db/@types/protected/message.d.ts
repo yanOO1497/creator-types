@@ -1,7 +1,11 @@
-import { AssetInfo, AssetDBOptions, ExecuteAssetDBScriptMethodOptions } from '../public';
+import { AssetInfo, AssetDBOptions, ExecuteAssetDBScriptMethodOptions, IAssetInfo } from '../public';
 import { message as publicMessage } from '../message';
 import { IData } from '@editor/asset-db/libs/data';
 import { MissingAssetInfo } from '@editor/asset-db/libs/info';
+import { QueryAssetType } from './asset';
+import { CreateAssetDialogOptions, CreateAssetOptions, IAssetConfig, ICONConfig, ICreateMenuInfo, ThumbnailInfo, ThumbnailSize } from './asset-handler';
+import { IMessage } from '../protected';
+
 export interface message extends publicMessage {
     /**
      * 查询已被删除的资源信息
@@ -12,25 +16,7 @@ export interface message extends publicMessage {
         ],
         result: MissingAssetInfo | null,
     },
-    /**
-     * 查询资源依赖的 uuid 数组
-     */
-    'query-asset-dependinces': {
-        params: [
-            string
-        ],
-        result: string[],
-    },
     'query-asset-mtime': {
-        params: [
-            string
-        ],
-        result: string | null,
-    },
-    /**
-     * 查询资源被哪些资源直接使用到
-     */
-    'query-asset-used': {
         params: [
             string
         ],
@@ -90,6 +76,13 @@ export interface message extends publicMessage {
         result: AssetDBOptions,
     },
     /**
+     * 查询当前所有数据库信息
+     */
+    'query-db-infos': {
+        params: [],
+        result: AssetDBOptions[],
+    },
+    /**
      * 查询所有的数据库名称列表
      */
     'query-db-list': {
@@ -98,17 +91,13 @@ export interface message extends publicMessage {
     },
     /**
      * 指定类型弹出创建资源的对话框
-     * @param type cc.Material cc.Mesh 格式
-     * @param url 可选，指定路径
+     * @param option CreateAssetDialogOptions
      */
     'create-asset-dialog': {
         params: [
-            string,
-        ] | [
-            string,
-            string,
+            option: CreateAssetDialogOptions
         ],
-        result: string | null,
+        result: AssetInfo | null,
     },
     /**
      * 将一个虚拟资源实例化成一个实体资源
@@ -142,5 +131,44 @@ export interface message extends publicMessage {
     'execute-script': {
         params: [ExecuteAssetDBScriptMethodOptions];
         result: any;
+    },
+    'query-create-menu-list': {
+        params: [],
+        result: ICreateMenuInfo[];
+    },
+    'query-asset-thumbnail': {
+        params: [uuid: string, size?: number | ThumbnailSize],
+        result: ThumbnailInfo;
+    },
+    'query-icon-config-map': {
+        params: [],
+        result: Record<string, ICONConfig>;
+    },
+    'query-asset-config-map': {
+        params: [],
+        result: Record<string, IAssetConfig>;
+    },
+    'new-asset': {
+        params: [options: CreateAssetOptions],
+        result: AssetInfo | null;
+    },
+    /**
+     * 执行资源处理器内定义的自定义消息操作
+     */
+    'execute-custom-operation': {
+        params: [handlerName: string, operate: string, ...args: any[]],
+        result: any;
+    },
+    /**
+     * 批量消息
+     * @param messageList 需要批量操作的消息，可能是一个消息也可能是多个
+     * @param parallelism 是否支持并行操作
+     */
+    'batch-message-handler': {
+        params: [
+            messageList: IMessage[],
+            parallelism?: boolean,
+        ],
+        result: any[];
     }
 }

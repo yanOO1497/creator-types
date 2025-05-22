@@ -6,4 +6,3 @@ declare class NodeDump implements DumpInterface {
 }
 export declare const nodeDump: NodeDump;
 export {};
-//# sourceMappingURL=node-dump.d.ts.map

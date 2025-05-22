@@ -1,6 +1,6 @@
 import { ITextureCompressType, IPVRQuality, IASTCQuality, IETCQuality, ITextureFormatInfo } from './texture-compress';
 import { IBuildTaskOption, IConsoleType } from './options';
-import { IBuildResult } from './build-result';
+import { IBuildResult, ICompressConfig } from './build-result';
 
 export interface IBuildPluginConfig {
     doc?: string; // document address
@@ -17,7 +17,7 @@ export interface IBuildPluginProfile {
         options?: Record<string, Record<string, any>>;
         // id: options
         taskOptionsMap?: Record<string, any>;
-    }
+    };
     __version__: string;
 
     // 旧版本的数据格式，已废弃
@@ -39,8 +39,6 @@ export interface IInternalVerificationRule {
     func: IInternalVerificationFunc;
     message: string;
 }
-
-
 
 export type IDisplayOptions = Record<string, IConfigItem>;
 
@@ -109,10 +107,9 @@ export namespace BuildHook {
 
 export namespace AssetHandlers {
     export type compressTextures = (
-        tasks: { src: string; dest: string; quality: number | IPVRQuality | IASTCQuality | IETCQuality; format: ITextureCompressType }[],
+        tasks:ICompressConfig[],
     ) => Promise<void>;
 }
-
 
 // ui-panel 注册数据
 export interface PanelInfo {

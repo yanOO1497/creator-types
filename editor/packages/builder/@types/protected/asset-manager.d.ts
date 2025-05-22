@@ -1,5 +1,6 @@
-import { UUID } from '../public';
-import { IInternalBuildOptions, IAssetInfo, IBuildSceneItem } from './options';
+import { IAsset } from '@cocos/creator-types/editor/packages/asset-db/@types/protected';
+import { IBuildSceneItem, UUID } from '../public';
+import { IInternalBuildOptions, IAssetInfo } from './options';
 
 // ********************************* asset-manager *********************************
 
@@ -15,13 +16,13 @@ export class BuilderAssetCache {
 
     init: () => Promise<void>;
     hasAsset: (uuid: string) => Promise<boolean>;
-    addAsset: (asset: IAssetInfo) => void;
+    addAsset: (asset: IAsset) => void;
     addInstance: (instance: any) => void;
     clearAsset: (uuid: string) => void;
     removeAsset: (uuid: string) => void;
     getMeta: (uuid: string) => Promise<any>;
-    addMeta: (uuid: string, meta: any) => void;
     getAssetInfo: (uuid: string) => IAssetInfo;
+    addMeta: (uuid: string, meta: any) => void;
     getDependUuids: (uuid: string) => Promise<readonly string[]>;
     getDependUuidsDeep: (uuid: string) => Promise<readonly string[]>;
 
@@ -76,7 +77,6 @@ export interface IAssetGroupOptions {
 }
 
 export type IGroupType = 'json' | 'script' | 'asset';
-
 
 export type IUpdateType = 'asset-change' | 'asset-add' | 'asset-delete';
 export interface IUpdateInfo {

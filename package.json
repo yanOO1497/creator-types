@@ -1,10 +1,12 @@
 {
     "name": "@cocos/creator-types",
-    "version": "3.8.2",
+    "version": "3.8.7-5229",
     "description": "",
     "scripts": {
         "test": "cd test && npx tsc",
-        "ci": "npm install && npm run test"
+        "ci": "npm install && npm run test",
+        "prepublish": "node scripts/prepublish.js",
+        "postpublish": "node scripts/postpublish.js"
     },
     "author": "",
     "license": "ISC",

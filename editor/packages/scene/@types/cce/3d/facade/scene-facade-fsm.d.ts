@@ -21,4 +21,3 @@ declare class SceneFacadeFSM extends FiniteStateMachine<ISceneFacadeState> {
 }
 declare function createSceneFacadeFSM(): SceneFacadeFSM;
 export { createSceneFacadeFSM, SceneFacadeFSM };
-//# sourceMappingURL=scene-facade-fsm.d.ts.map

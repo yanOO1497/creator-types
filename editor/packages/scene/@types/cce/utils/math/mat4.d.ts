@@ -206,4 +206,3 @@ export declare class MMat4 {
     static equals<Out extends IMat4Like>(a: Out, b: Out, epsilon?: number): boolean;
 }
 export {};
-//# sourceMappingURL=mat4.d.ts.map

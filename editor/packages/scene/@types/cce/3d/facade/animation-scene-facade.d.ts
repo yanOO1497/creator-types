@@ -45,4 +45,3 @@ declare class AnimationSceneFacade extends GeneralSceneFacade {
     saveScene(asNew: boolean): Promise<any>;
 }
 export default AnimationSceneFacade;
-//# sourceMappingURL=animation-scene-facade.d.ts.map

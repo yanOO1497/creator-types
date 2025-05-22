@@ -85,4 +85,3 @@ export declare class CompManager extends EventEmitter {
 }
 declare const _default: CompManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

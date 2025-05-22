@@ -48,4 +48,3 @@ export declare abstract class AnimationGraphPreviewBase<T extends animationApi.T
     protected abstract getUpdateMessageName(): string;
 }
 export {};
-//# sourceMappingURL=base.d.ts.map

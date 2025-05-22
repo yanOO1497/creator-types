@@ -243,4 +243,3 @@ export declare class AnimationManager extends EventEmitter implements ISceneEven
 }
 declare const _default: AnimationManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

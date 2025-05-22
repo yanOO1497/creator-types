@@ -2,7 +2,6 @@ declare module 'cc' {
     export interface AssetManager {
         assetListener: CallbacksInvoker;
     }
-
 }
 declare class CallbackInfo {
     callback: Function;
@@ -100,5 +99,5 @@ export declare class CallbacksInvoker {
      */
     emit(key: string, ...args: any[]): void;
 }
-export { };
+export {};
 //# sourceMappingURL=callbacks-invoker.d.ts.map

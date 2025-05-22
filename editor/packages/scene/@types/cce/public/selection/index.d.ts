@@ -69,4 +69,3 @@ declare class Selection extends EventEmitter {
 }
 declare const _default: Selection;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

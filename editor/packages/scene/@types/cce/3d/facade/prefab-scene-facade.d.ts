@@ -14,4 +14,3 @@ declare class PrefabSceneFacade extends GeneralSceneFacade {
     saveScene(asNew: boolean): Promise<any>;
 }
 export default PrefabSceneFacade;
-//# sourceMappingURL=prefab-scene-facade.d.ts.map

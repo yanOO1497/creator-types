@@ -13,4 +13,3 @@ declare class LightManager {
 }
 declare const lightManager: LightManager;
 export { lightManager };
-//# sourceMappingURL=light-manager.d.ts.map

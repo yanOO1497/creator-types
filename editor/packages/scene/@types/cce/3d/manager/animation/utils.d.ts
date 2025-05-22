@@ -126,4 +126,3 @@ declare class AnimationUtil {
 declare const utils: AnimationUtil;
 export { utils, isHierarchyPath, allowModifyCurveType };
 export declare function multiplyTrackWithTimer(category: string, value: Record<string, string | number>): void;
-//# sourceMappingURL=utils.d.ts.map

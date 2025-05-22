@@ -60,4 +60,3 @@ export declare class PreviewPlay extends EventEmitter {
 }
 declare const preview: PreviewPlay;
 export default preview;
-//# sourceMappingURL=index.d.ts.map

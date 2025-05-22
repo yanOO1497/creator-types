@@ -10,4 +10,3 @@ interface IOperationMode extends IState {
     onUpdate(deltaTime: number): void;
 }
 export { IOperationMode };
-//# sourceMappingURL=operation-mode-interface.d.ts.map

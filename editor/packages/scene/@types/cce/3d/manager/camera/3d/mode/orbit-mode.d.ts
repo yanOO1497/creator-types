@@ -9,4 +9,3 @@ declare class OrbitMode extends ModeBase {
     onMouseUp(event: ISceneMouseEvent): boolean;
 }
 export { OrbitMode };
-//# sourceMappingURL=orbit-mode.d.ts.map

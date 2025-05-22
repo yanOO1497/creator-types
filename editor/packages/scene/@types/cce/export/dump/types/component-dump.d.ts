@@ -6,4 +6,3 @@ declare class ComponentDump implements DumpInterface {
 }
 export declare const componentDump: ComponentDump;
 export {};
-//# sourceMappingURL=component-dump.d.ts.map

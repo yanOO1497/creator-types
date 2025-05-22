@@ -25,4 +25,3 @@ export declare class EffectManager {
 }
 declare const _default: EffectManager;
 export default _default;
-//# sourceMappingURL=effects.d.ts.map

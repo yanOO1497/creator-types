@@ -37,4 +37,3 @@ export declare class LODManager implements ISceneEvents {
 }
 declare const _default: LODManager;
 export default _default;
-//# sourceMappingURL=lod.d.ts.map

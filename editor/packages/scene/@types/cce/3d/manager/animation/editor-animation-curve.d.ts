@@ -78,4 +78,3 @@ export declare class EditorAnimationCurve extends EditorAnimationCurveBase {
     getPropValueAtFrame(frame: number): Promise<import("../../../../../@types/public").IProperty | null>;
 }
 export default EditorAnimationCurve;
-//# sourceMappingURL=editor-animation-curve.d.ts.map

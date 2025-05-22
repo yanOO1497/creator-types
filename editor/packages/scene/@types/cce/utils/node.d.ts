@@ -1,9 +1,9 @@
-import { geometry, Mat4, MeshRenderer, Node, Quat, Rect, renderer, Size, UITransform, Vec2, Vec3, Vec4, LightProbeGroup } from 'cc';
+import { geometry, Mat4, MeshRenderer, Node, Quat, Rect, renderer, Size, UITransform, Vec2, Vec3, Vec4, CCObject } from 'cc';
+import { IRaycastResult } from './raycast';
 export declare class NodeUtils {
     getObbFromRect(mat: Mat4, rect: Rect, out_bl: Vec2, out_tl: Vec2, out_tr: Vec2, out_br: Vec2): Vec2[];
     getWorldBounds(node: Node, size?: Size, out?: Rect): any;
     getWorldOrientedBounds(node: Node, size?: Size | null, out_bl?: Vec2 | null, out_tl?: Vec2 | null, out_tr?: Vec2 | null, out_br?: Vec2 | null): Vec3[];
-    getObbFromLightProbeGroup(modelComp: LightProbeGroup, mat: Mat4): Vec3[];
     getObbFromUITransform(modelComp: UITransform, mat: Mat4): Vec3[];
     getObbFromMeshRenderer(modelComp: MeshRenderer, mat: Mat4): Vec3[];
     getObbFromBound(aabb: geometry.AABB): Vec3[];
@@ -24,9 +24,15 @@ export declare class NodeUtils {
      */
     _hasFlagInComponents(node: Node, flag: number): boolean;
     /**
+     * 查询自身节点与父辈节点是否有指定组件
+     * @param node 指定节点
+     * @param componentNames - 组件名列表
+     */
+    hasComponentInSelfAndParent(node: Node | null, componentNames: string[]): boolean;
+    /**
      *
      * @param node
-     * @param flag
+     * @param comps
      * @returns
      */
     hasComponent(node: Node, comps: string[]): boolean;
@@ -54,9 +60,47 @@ export declare class NodeUtils {
     isPartOfNode(testNode: Node, rootNode: Node): boolean;
     isEditorNode(node: Node): boolean;
     private _getRangeFromParticleComp;
+    /**
+     * 默认在场景物体选择中只排除对SceneGizmo（右上角的坐标轴）的射线检测
+     * 传入引擎的坐标系
+     * @param camera
+     * @param x
+     * @param y
+     * @param mask
+     * @returns
+     */
     getRaycastResultNodes(camera: renderer.scene.Camera, x: number, y: number, mask?: number): Node[];
-    getRaycastResults(camera: renderer.scene.Camera, x: number, y: number, mask?: number): import("./raycast").IRaycastResult[];
-    getRaycastResultsForSnap(camera: renderer.scene.Camera, x: number, y: number, mask?: number): import("./raycast").IRaycastResult[];
+    /**
+     * 默认在场景物体选择中只排除对SceneGizmo（右上角的坐标轴）的射线检测
+     * 传入引擎的坐标系
+     * @param camera
+     * @param x
+     * @param y
+     * @param mask
+     * @param skipFlags
+     * @returns
+     */
+    getFilteredRaycastNodes(camera: renderer.scene.Camera, x: number, y: number, mask?: number, skipFlags?: CCObject.Flags[]): Node[];
+    /**
+     * 获取射线检测结果
+     * 传入引擎的坐标系
+     * @param camera
+     * @param x
+     * @param y
+     * @param mask
+     * @returns
+     */
+    getRaycastResults(camera: renderer.scene.Camera, x: number, y: number, mask?: number): IRaycastResult[];
+    /**
+     * 获取射线检测结果
+     * 传入引擎的坐标系
+     * @param camera
+     * @param x
+     * @param y
+     * @param mask
+     * @returns
+     */
+    getRaycastResultsForSnap(camera: renderer.scene.Camera, x: number, y: number, mask?: number): IRaycastResult[];
     private _collectNodesForRegion;
     isNodeInRegion(node: Node, camera: renderer.scene.Camera, left: number, right: number, top: number, bottom: number): boolean;
     isModelInRegion(m: renderer.scene.Model, camera: renderer.scene.Camera, left: number, right: number, top: number, bottom: number): boolean;
@@ -85,4 +129,3 @@ export declare class NodeUtils {
 }
 declare const _default: NodeUtils;
 export default _default;
-//# sourceMappingURL=node.d.ts.map

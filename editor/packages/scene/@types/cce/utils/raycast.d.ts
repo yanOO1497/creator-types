@@ -1,4 +1,4 @@
-import { geometry, Node, renderer, Vec3, PhysicsRayResult } from 'cc';
+import { geometry, Node, renderer, Vec3, PhysicsRayResult, Vec2 } from 'cc';
 type ray = geometry.Ray;
 declare const ray: typeof geometry.Ray;
 export interface IRaycastResult {
@@ -37,6 +37,7 @@ export declare class Raycast {
      * Cast a ray into the scene, record all the intersected models and ui2d nodes in the result array
      * @param worldRay the testing ray
      * @param mask the layer mask to filter the models
+     * @param renderScene
      * @param distance the max distance , Infinity by default
      * @returns boolean , ray is hit or not
      * @note getter of this.rayResultAll can get recently result
@@ -44,11 +45,14 @@ export declare class Raycast {
      * 传入一条射线检测场景中所有的 3D 模型和 UI2D Node
      * @param worldRay 世界射线
      * @param mask mask 用于标记所有要检测的层，默认为 Default | UI2D
+     * @param forSnap
+     * @param excludeMask
      * @param distance 射线检测的最大距离, 默认为 Infinity
+     * @param screenPoint 用于 2d 节点 hitTest 检测
      * @returns boolean , 射线是否有击中
      * @note 通过 this.rayResultAll 可以获取到最近的结果
      */
-    raycastAll(renderScene: renderer.RenderScene, worldRay: ray, mask?: number, distance?: number, forSnap?: boolean, excludeMask?: number): boolean;
+    raycastAll(renderScene: renderer.RenderScene, worldRay: ray, mask?: number, distance?: number, forSnap?: boolean, excludeMask?: number, screenPoint?: Vec2): boolean;
     private narrowPhaseStep;
     /**
      * @en
@@ -99,10 +103,11 @@ export declare class Raycast {
      * @param mask 用于标记所有要检测的层，默认为 UI_2D
      * @param distance 射线检测的最大距离, 默认为 Infinity
      * @param excludeMask 标记要排除的层
+     * @param screenPos
      * @returns boolean , 射线是否有击中
      * @note 通过 this.rayResultCanvas 可以获取到最近的结果
      */
-    raycastAllCanvas(worldRay: ray, mask?: number, distance?: number, excludeMask?: number): boolean;
+    raycastAllCanvas(worldRay: ray, mask?: number, distance?: number, excludeMask?: number, screenPos?: Vec2): boolean;
     /**
      * 射线检测所有colliders
      * @param worldRay
@@ -115,4 +120,3 @@ export declare class Raycast {
 }
 declare const _default: Raycast;
 export default _default;
-//# sourceMappingURL=raycast.d.ts.map

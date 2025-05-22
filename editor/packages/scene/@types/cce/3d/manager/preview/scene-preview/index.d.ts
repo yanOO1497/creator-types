@@ -15,4 +15,3 @@ export declare class ScenePreview extends PreviewBase implements ISceneEvents {
 }
 declare const scenePreview: ScenePreview;
 export { scenePreview };
-//# sourceMappingURL=index.d.ts.map

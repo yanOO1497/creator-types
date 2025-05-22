@@ -5,4 +5,3 @@ import type { Camera } from '.';
  */
 declare function bind(camera: Camera): void;
 export default bind;
-//# sourceMappingURL=listener.d.ts.map

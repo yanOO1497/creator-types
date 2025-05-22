@@ -1,4 +1,11 @@
 import * as babel from '@babel/core';
+import { ITextureCompressPlatform, ITextureCompressType, PlatformCompressConfig } from './texture-compress';
+import { BuildTemplateConfig, IPlatformType } from '../protected';
+import { IFlags } from '@cocos/creator-types/editor/packages/engine/@types'
+import { StatsQuery } from '@cocos/ccbuild';
+
+export type MakeRequired<T, K extends keyof T> = T & Required<Pick<T, K>>;
+export type ISortType = 'taskName' | 'createTime' | 'platform' | 'buildTime';
 
 export interface IPhysicsConfig {
     gravity: IVec3Like; // （0，-10， 0）
@@ -35,11 +42,28 @@ export interface IPhysicsMaterial {
 }
 export type IConsoleType = 'log' | 'warn' | 'error' | 'debug';
 
+export type BreakType = 'cancel' | 'crashed' | 'refreshed' | 'interrupted' | '';
+export type ICustomConsoleType = IConsoleType | 'group' | 'groupEnd' | 'groupCollapsed';
+
 export interface IConsoleMessage {
     type: ICustomConsoleType,
     value: string;
     num: number;
     time: string;
+}
+
+export interface IPlatformConfig {
+    texture: PlatformCompressConfig;
+    // TODO 后续废弃，统一使用 platformType
+    type: IPlatformType;
+    platformType: StatsQuery.ConstantManager.PlatformType;
+    name: string;
+    buildTemplateConfig?: BuildTemplateConfig;
+}
+
+interface IBinGroupConfig {
+    enable: boolean;
+    threshold: number;
 }
 
 export interface IBuildOptionBase {
@@ -48,7 +72,7 @@ export interface IBuildOptionBase {
     platform: Platform;
     scenes: IBuildSceneItem[];
     skipCompressTexture: boolean;
-    sourceMaps: boolean;
+    sourceMaps: boolean | 'inline';
     experimentalEraseModules: boolean;
     bundleCommonChunk: boolean;
 
@@ -56,6 +80,8 @@ export interface IBuildOptionBase {
     // 构建后的游戏文件夹生成的路径
     buildPath: string;
     debug: boolean;
+    mangleProperties: boolean;
+    inlineEnum: boolean;
     inlineSpriteFrames: boolean;
     md5Cache: boolean;
 
@@ -66,19 +92,23 @@ export interface IBuildOptionBase {
     server?: string; // 服务器地址
     startSceneAssetBundle: boolean; // 配置初始场景为远程包
     bundleCommonJs?: string;
+    binGroupConfig?: IBinGroupConfig;
 
     // 移除远程包 Bundle 的脚本, 小游戏平台将会自动勾选
     moveRemoteBundleScript: boolean;
 
     // 项目设置
+    engineModulesConfigKey?: string; // 3.8.6 新增的多模块裁切
     includeModules?: string[];
     renderPipeline?: string;
     designResolution?: IBuildDesignResolution;
     physicsConfig?: IPhysicsConfig;
-    flags?: Record<string, boolean>;
+    flags?: IFlags;
     customLayers: { name: string, value: number }[];
     sortingLayers: { id: number, name: string, value: number }[];
-    macroConfig?: Record<string, any>
+    macroConfig?: Record<string, any>;
+    // 是否使用自定义管线，如与其他模块配置不匹配将会以当前选项为准
+    customPipeline?: boolean;
 
     // 是否使用自定义插屏选项
     useSplashScreen?: boolean;
@@ -92,6 +122,17 @@ export interface IBuildOptionBase {
 
     buildMode?: 'normal' | 'bundle' | 'script';
 }
+
+export interface BundleFilterConfig {
+    range: 'include' | 'exclude';
+    type: 'asset' | 'url';
+    patchOption?: {
+        patchType: 'glob' | 'beginWith' | 'endWith' | 'contain';
+        value: string;
+    };
+    assets?: string[];
+}
+
 export interface IBundleOptions {
     root: string, // bundle 的根目录, 开发者勾选的目录，如果是 main 包等内置 Bundle，这个字段任意字符串均可
     priority?: number, // bundle 的优先级
@@ -102,7 +143,7 @@ export interface IBundleOptions {
     // isEncrypted: boolean // bundle 中的代码是否加密，原生平台使用
 
     dest?: string, // bundle 的输出目录
-    scriptDest?: string, // 脚本的输出目录
+    scriptDest?: string, // 脚本的输出地址
     bundleFilterConfig?: BundleFilterConfig[];
 }
 
@@ -143,6 +184,20 @@ export interface IBuildTaskOption extends IBuildOptionBase {
     useBuildTextureCompressCache?: boolean;
     useBuildAutoAtlasCache?: boolean;
     __version__?: string;
+
+    overwriteProjectSettings?: {
+        macroConfig?: {
+            cleanupImageCache: string;
+        },
+        includeModules?: {
+            physics?: 'inherit-project-setting' | string;
+            'physics-2d'?: 'inherit-project-setting' | string;
+            'gfx-webgl2'?: 'inherit-project-setting' | 'on' | 'off';
+            [key?: string]: string;
+        };
+    };
+    nativeCodeBundleMode: 'wasm' | 'asmjs' | 'both';
+    wasmCompressionMode?: 'brotli';
 }
 
 export interface IBundleTaskOption extends IBuildTaskOption {
@@ -174,7 +229,7 @@ export interface ISplashBackgroundColor {
     x: number;
     y: number;
     z: number;
-    w: number ;
+    w: number;
 }
 
 export interface ICustomJointTextureLayout {
@@ -227,7 +282,7 @@ export interface IBuildSystemJsOption {
     dest: string;
     platform: string;
     debug: boolean;
-    sourceMaps: boolean;
+    sourceMaps: boolean | 'inline';
     hotModuleReload?: boolean;
 }
 
@@ -250,6 +305,8 @@ export type Platform =
     | 'oppo-mini-game'
     | 'vivo-mini-game'
     | 'huawei-quick-game'
+    | 'honor-mini-game'
+    | 'migu-mini-game'
     | 'alipay-mini-game'
     | 'taobao-creative-app'
     | 'taobao-mini-game'
@@ -258,8 +315,9 @@ export type Platform =
     | 'linux'
     // | 'ios-app-clip'
     | 'android'
+    | 'google-play'
     | 'ohos'
-    | 'openharmony'
+    | 'harmonyos-next'
     | 'windows'
     | 'xiaomi-quick-game'
     | 'baidu-mini-game'
@@ -289,6 +347,7 @@ export type Platform =
     | 'xr-nreal'
     | 'xr-inmo'
     | 'xr-lenovo'
+    | 'android-hmi'
     ;
 export type BundleCompressionType = 'none' | 'merge_dep' | 'merge_all_json' | 'subpackage' | 'zip';
 
@@ -296,7 +355,10 @@ export type IModules = 'esm' | 'commonjs' | 'systemjs';
 export interface ITransformOptions {
     importMapFormat: IModules;
     plugins?: babel.PluginItem[];
+    loose?: boolean;
 }
+
+export type IBuildStage = 'build' | 'bundle' | 'make' | 'run' | string;
 
 export type ITaskState = 'waiting' | 'success' | 'failure' | 'cancel' | 'processing' | 'none';
 
@@ -304,7 +366,10 @@ export interface ITaskItemJSON {
     id: string;
     progress: number;
     state: ITaskState;
+    // 当前任务的主信息
     message: string;
+    // 当前任务的详细日志信息
+    detailMessage?: string;
     time: string;
 }
 

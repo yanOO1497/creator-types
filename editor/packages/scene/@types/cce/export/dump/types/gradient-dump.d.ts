@@ -6,4 +6,3 @@ declare class GradientDump implements DumpInterface {
 }
 export declare const gradientDump: GradientDump;
 export {};
-//# sourceMappingURL=gradient-dump.d.ts.map

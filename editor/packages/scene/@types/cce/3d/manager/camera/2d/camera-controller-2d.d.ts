@@ -26,7 +26,7 @@ declare class CameraController2D extends CameraControllerBase {
     _initGrid(): void;
     updateGrid(): void;
     set active(value: boolean);
-    _adjustToCenter(margin: number, contentBounds?: Rect | null, immediate?: boolean, forceScale?: number): void;
+    _adjustToCenter(marginPercentage: number, contentBounds?: Rect | null, immediate?: boolean, forceScale?: number): void;
     adjustCamera(immediate?: boolean): void;
     _updateGridData(positions: number[], colors: number[], lineColor: Color, lineEnd: number): void;
     _updateOrthoHeight(scale: number): void;
@@ -43,6 +43,7 @@ declare class CameraController2D extends CameraControllerBase {
     fitSize(srcWidth: number, srcHeight: number, destWidth: number, destHeight: number): number[];
     getSizeScale(newWidth: number, newHeight: number, oldWidth: number, oldHeight: number): number;
     scale(delta: number, offsetX: number, offsetY: number): void;
+    onMouseDBlDown(event: ISceneMouseEvent): boolean;
     onMouseDown(event: ISceneMouseEvent): boolean;
     onMouseMove(event: ISceneMouseEvent): boolean;
     onMouseUp(event: ISceneMouseEvent): boolean;
@@ -58,6 +59,8 @@ declare class CameraController2D extends CameraControllerBase {
     zoomDown(): void;
     zoomReset(): void;
     get contentRect(): Rect;
+    private initOriginAxis;
+    private updateOriginAxisByConfig;
+    private updateOriginAxis;
 }
 export { CameraController2D };
-//# sourceMappingURL=camera-controller-2d.d.ts.map

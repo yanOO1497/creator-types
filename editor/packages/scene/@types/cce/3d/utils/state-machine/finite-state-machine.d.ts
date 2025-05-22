@@ -11,4 +11,3 @@ declare class FiniteStateMachine<TState extends IState> {
     issueCommand(command: string, opts?: any): Promise<boolean>;
 }
 export default FiniteStateMachine;
-//# sourceMappingURL=finite-state-machine.d.ts.map

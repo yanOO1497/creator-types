@@ -1,3 +1,4 @@
+/// <reference path="./protected/message.d.ts"/> 
 /// <reference path="./editor.d.ts"/>
 /// <reference path="./message.d.ts"/>
 /// <reference path="./utils.d.ts"/>
@@ -5,7 +6,6 @@
 import type { FileFilter, BrowserWindow, OpenDialogReturnValue, SaveDialogReturnValue, MessageBoxReturnValue, MenuItemConstructorOptions } from 'electron';
 
 import type { EventEmitter } from 'events';
-import type { SpawnOptions } from 'child_process';
 
 declare global {
     export namespace Editor {
@@ -43,7 +43,7 @@ declare global {
 
                 /**
                  * 导出语言数据
-                 * @param language 
+                 * @param language
                  */
                 exportLanguageData(language?: string): I18nRegisterMap;
                 /**
@@ -68,10 +68,10 @@ declare global {
                 remove(name: string): void;
                 query(name?: string): Promise<Editor.Layout.ILayout>;
                 queryList(): Promise<CacheLayoutInfo>;
-                on(action: string, handle: (...args: any[]) =>  void): EventEmitter;
-                once(action: string, handle: (...args: any[]) =>  void): EventEmitter;
+                on(action: string, handle: (...args: any[]) => void): EventEmitter;
+                once(action: string, handle: (...args: any[]) => void): EventEmitter;
                 emit(action: string): boolean;
-                removeListener(action: string, handle: (...args: any[]) =>  void): EventEmitter;
+                removeListener(action: string, handle: (...args: any[]) => void): EventEmitter;
             };
         }
         export namespace Panel {
@@ -119,7 +119,7 @@ declare global {
                 holdKit(): void;
                 /**
                  * 打开指定面板的开发者工具
-                 * @param name 
+                 * @param name
                  */
                 _openDevTools(name: string): void;
             }
@@ -212,7 +212,7 @@ declare global {
                 /**
                  * 查询主菜单的模版信息
                  */
-                queryMain(): Promise<{[key: string]: MainMenuItem}>;
+                queryMain(): Promise<{ [key: string]: MainMenuItem }>;
 
                 /**
                  * 查询当前弹出的右键菜单的模版信息
@@ -225,7 +225,7 @@ declare global {
         }
         export namespace Message {
             export interface MessageRegisterInfo {
-                [message: string]: MessageInfo;
+                [message: string]: MessageConfig;
             }
             export const __protected__: {
                 /**
@@ -279,27 +279,27 @@ declare global {
                 startup(handle: (name: string, path: string) => Promise<void>): Promise<void>;
                 /**
                  * 记录关闭的插件
-                 * @param path 
+                 * @param path
                  */
-                 addDisableInfo(path: string): void;
-                 /**
-                  * 移除记录的关闭信息
-                  * @param path 
-                  */
-                 removeDisableInfo(path: string): void;
+                addDisableInfo(path: string): void;
+                /**
+                 * 移除记录的关闭信息
+                 * @param path
+                 */
+                removeDisableInfo(path: string): void;
                 /**
                  * 获取一个插件是否被有被关闭的记录信息
-                 * @param path 
+                 * @param path
                  */
                 queryDisableInfo(path: string): Promise<IDisableInfo | void>;
                 /**
                  * 关闭同名的其他更高优先级的插件
-                 * @param path 
+                 * @param path
                  */
                 disableOther(path: string): Promise<void>;
                 /**
                  * 关闭后打开同名的插件，根据优先级顺序打开
-                 * @param path 
+                 * @param path
                  */
                 enableOther(path: string): Promise<void>;
                 /**
@@ -309,7 +309,7 @@ declare global {
                 scan(dir: string): Promise<string[]>;
                 /**
                  * 传入插件目录，返回插件的类别
-                 * @param dir 
+                 * @param dir
                  */
                 checkType(dir: string): packageType;
                 /**
@@ -319,12 +319,12 @@ declare global {
                 checkVersion(version: string): boolean;
                 /**
                  * 检查是否需要刷新插件数据
-                 * @param path 
+                 * @param path
                  */
                 checkReload(path: string): boolean;
                 /**
                  * 格式化一个路径地址
-                 * @param path 
+                 * @param path
                  */
                 normalizePath(path: string): string;
                 /**
@@ -525,12 +525,16 @@ declare global {
                     readonly package: any;
                 };
                 window(options: {
-                    beforeOpen(options: Editor.Windows.IWindowOptions): void,
+                    beforeOpen(options: Editor.Windows.IWindowOptions, userData: { layout: Editor.Layout.ILayout }): void,
                     afterOpen(windows: any): void,
                 }): Promise<void>;
-                manager(skipLogin: boolean): Promise<void>;
-                startPackage(): Promise<void>;
+                manager(skipLogin: boolean, outputMetricLog?: boolean): Promise<void>;
+                startPackage(options?: {
+                    preList?: string[];
+                    list?: string[];
+                }): Promise<void>;
                 build(options: any, debug: boolean): Promise<any>;
+                test(options: any, debug: boolean): Promise<any>;
                 on(action: string, handle: (...args: any[]) => void): void;
                 once(action: string, handle: (...args: any[]) => void): void;
                 removeListener(action: string, handle: (...args: any[]) => void): void;
@@ -540,7 +544,7 @@ declare global {
                 disableBuiltin?: string[];
                 // 启动的外部插件
                 extensions?: string[];
-                // 
+                //
                 env?: {
                     // 更改编辑器配置目录
                     HOME?: string;
@@ -548,16 +552,16 @@ declare global {
                     PROJECT?: string;
                     // 启动默认使用的布局信息，支持文件路径和 json 对象
                     LAYOUT?: string;
-            
+
                     // 启动默认使用的语言
                     LANGUAGE?: string;
-            
+
                     // 主窗口钩子，在 Editor 执行后立即执行
                     // MAIN_WINDOW_HOOK?: string;
                     // 主窗口特殊的样式
                     // MAIN_WINDOW_STYLE?: string;
                     // 主窗口上的 Header
-                    // MAIN_WINDOW_HEADER?: string; 
+                    // MAIN_WINDOW_HEADER?: string;
                     // 叠加新的头部内容
                     MAIN_WINDOW_CUSTOM_HEADER?: string;
                     // 控制内置头部区域显示
@@ -566,10 +570,10 @@ declare global {
                         CENTER?: boolean, // 中间预览操作区域；true / false 同上意义
                         RIGHT?: boolean, // 右边区域，但不包括关闭窗口的三个按钮区域
                     };
-           
+
                     // 主窗口上的 Footer
                     MAIN_WINDOW_FOOTER?: string;
-            
+
                     // 所有窗口钩子，在 Editor 执行后立即执行
                     WINDOW_HOOK?: string;
                     // 所有窗口的样式
@@ -580,6 +584,20 @@ declare global {
         export namespace UI {
             export type HTMLCustomElement<T extends {} = Record<string, any>> = HTMLElement & T;
 
+            export interface RegisterProtocolInfo {
+                label: string;
+                description?: string;
+                path: string; // 与转换 handlers 二选一
+                invalidInfo?: string;// 不符合当前协议头时的文本提示
+                // 自定义协议转换
+                // handlers?: {
+                //     fileToUrl: (path: string) => string;
+                //     urlToFile: (path: string) => string;
+                // }
+            }
+            export interface ProtocolInfo extends RegisterProtocolInfo {
+                protocol: string;
+            }
             export const __protected__: {
                 registerTranslator(handle: (key: string) => string): void;
                 Base: any;
@@ -607,7 +625,13 @@ declare global {
                 Gradient: any;
                 GradientPicker: any;
                 Icon: any;
-                File: any;
+                File: {
+                    resolveToRaw(url: string): string;
+                    resolveToUrl(raw: string, protocol: string): string;
+                    registerProtocol(protocol: string, protocolInfo: RegisterProtocolInfo): boolean;
+                    unregisterProtocol(protocol: string): boolean;
+                    getAllProtocolInfos(): ProtocolInfo[];
+                };
                 Link: any;
                 Image: any;
                 QRCode: any;
@@ -631,7 +655,7 @@ declare global {
             export interface trackWithTimerEventInfo {
                 category: string; // 分组目录
                 id: string; // 事件行为 ID
-                value: number; // 事件值
+                value: number | string; // 事件值
             }
             export interface trackOptions {
                 uid: string;
@@ -676,7 +700,7 @@ declare global {
              * @param info 统计事件数据
              * @returns
              */
-             export function _trackEventWithTimer(info: trackWithTimerEventInfo): any;
+            export function _trackEventWithTimer(info: trackWithTimerEventInfo): any;
             /**
              * 追踪一个异常
              * @param info 跟踪的错误信息 Error message for trace
@@ -695,7 +719,7 @@ declare global {
             export function trackTimeStart(message: string): void;
             /**
              * 结束追踪时间
-             * @param message 
+             * @param message
              * @param options 输出选项 { output：是否 console.debug 打印; label: 打印的消息名词的替换文本，支持 i18n: 写法; value: 直接打印计算好的统计时间}
              * @return 返回统计时间
              */
@@ -776,7 +800,7 @@ declare global {
                 //     env?: any;
                 //     // 输出等级，默认 = 0，即 log 级别以上都打印
                 //     logLevel?: LogLevel;
-                
+
                 //     downGradeWaring?: boolean; // 警告将会转为 log 打印，默认为 false
                 //     downGradeLog?: boolean; // log 将会转为 debug 打印，默认为 true
                 //     downGradeError?: boolean; // 错误将会转为警告打印，默认为 false
@@ -831,13 +855,16 @@ declare global {
                 fullscreen?: boolean;
                 minimizable?: boolean;
                 show?: boolean;
+                title?: string;
                 webPreferences?: {
                     nodeIntegration?: boolean;
+                    nodeIntegrationInWorker?: boolean;
                     webviewTag?: boolean;
                     // backgroundThrottling?: boolean;
                     enableRemoteModule?: boolean;
                     contextIsolation?: boolean;
                     backgroundThrottling?: boolean;
+                    zoomFactor?: number;
                 };
             }
 
@@ -846,17 +873,42 @@ declare global {
                 maximize(): void;
                 minimize(): void;
                 close(): void;
-                open(HTML: string, options?: IWindowOptions, userData?: {[key: string]: any}): Promise<string>;
-            
+                open(HTML: string, options?: IWindowOptions, userData?: { [key: string]: any }): Promise<string>;
+                /**
+                 * 设置默认配置 ZoomLevel
+                 * 设置后会同步到所有窗口
+                 * @param level
+                 */
+                setDefaultZoomLevel(level: number): void;
+                /**
+                 * 设置默认配置 ZoomLevel
+                 * 设置后会同步到所有窗口
+                 * @return zoom level
+                 */
+                getDefaultZoomLevel(): Promise<number> | number;
+                /**
+                 * 设置窗口缩放级别（默认当前聚焦的窗口，如果没有就是主窗口）
+                 * @param level - 缩放级别
+                 * @param winID - 指定窗口 id
+                 */
+                setZoomLevel(level: number, winID?: string): void;
+                /**
+                 * 获取窗口缩放级别（默认当前聚焦的窗口，如果没有就是主窗口）
+                 * @param winID - 指定窗口 id
+                 * @return level - 缩放级别
+                 */
+                getZoomLevel(winID?: string): Promise<number>;
                 queryUserData(winID?: string): any;
-                changeUserData(data: {[key: string]: any}, winID?: string): void;
+                changeUserData(data: { [key: string]: any }, winID?: string): void;
                 changeMinSize(width: number, height: number, winID?: string): void;
-            
+
                 generateBlank(): void;
-                openSubWindow(size: { width: number, height: number }, userData: {[key: string]: any})
-                openSimpleWindow(size: { width: number, height: number }, userData: {[key: string]: any})
-            
-                setBeforeOpenHook(func: (windows: any) => void): void;
+                openSubWindow(size: { width: number, height: number }, userData: { [key: string]: any })
+                openSimpleWindow(size: { width: number, height: number }, userData: { [key: string]: any })
+
+                changeMainTitle(title: string): void;
+                queryMainTitle(): Promise<string>;
+                setBeforeOpenHook(func: (options: Editor.Windows.IWindowOptions, userData: { layout: Editor.Layout.ILayout, }) => void): void;
                 setAfterOpenHook(func: (windows: any) => void): void;
             };
         }
@@ -911,4 +963,4 @@ declare global {
         }
     }
 }
-export {};
+export { };

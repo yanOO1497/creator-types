@@ -2,8 +2,10 @@
 import { Node, Component } from 'cc';
 import { EventEmitter } from 'events';
 import { ISceneEvents } from '../scene-events-interface';
-import { AssetInfo, IAssetMeta, IDragEvent } from '../../../../../../../builtin/scene/@types/private';
+import { AssetInfo, IAssetMeta } from '../../../../../../../builtin/scene/@types/private';
+import { DragDrop } from './drag-drop';
 export declare class AssetManager extends EventEmitter implements ISceneEvents {
+    dragDrop: DragDrop | null;
     init(): void;
     onScriptExecutedEnd(): void;
     removeAllAssetListeners(): void;
@@ -145,9 +147,6 @@ export declare class AssetManager extends EventEmitter implements ISceneEvents {
      */
     private getAllReferenceAssets;
     releaseAsset(assetUUID: string): void;
-    canDrop(type: string): boolean;
-    onDragOver(event: IDragEvent): void;
-    onDrop(event: IDragEvent): Promise<void>;
     /**
      * 传入 RenderPipeline 的 uuid
      * 返回具体的数据
@@ -171,4 +170,3 @@ export declare class AssetManager extends EventEmitter implements ISceneEvents {
 }
 declare const _default: AssetManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

@@ -9,4 +9,3 @@ declare const customIpc: CustomWebIPC;
  */
 export declare function startup(): void;
 export default customIpc;
-//# sourceMappingURL=ipc.d.ts.map

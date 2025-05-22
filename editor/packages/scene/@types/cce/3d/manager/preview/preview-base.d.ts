@@ -7,4 +7,3 @@ declare class PreviewBase {
     init(registerName: string, queryName: string): void;
 }
 export { PreviewBase };
-//# sourceMappingURL=preview-base.d.ts.map

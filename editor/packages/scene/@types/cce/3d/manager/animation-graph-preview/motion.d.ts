@@ -12,4 +12,3 @@ declare class MotionPreview extends AnimationGraphPreviewBase<animationApi.Motio
     protected getUpdateMessageName(): string;
 }
 export { MotionPreview, PreviewState };
-//# sourceMappingURL=motion.d.ts.map

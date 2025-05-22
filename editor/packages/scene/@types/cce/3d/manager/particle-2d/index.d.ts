@@ -4,4 +4,3 @@ export declare class Particle2DManager {
 }
 declare const _default: Particle2DManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

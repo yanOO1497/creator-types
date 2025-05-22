@@ -6,4 +6,3 @@ declare class NumberDump implements DumpInterface {
 }
 export declare const numberDump: NumberDump;
 export {};
-//# sourceMappingURL=number-dump.d.ts.map

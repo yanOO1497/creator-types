@@ -18,4 +18,3 @@ declare const _default: {
     SHAPE_CAPSULE: number;
 };
 export default _default;
-//# sourceMappingURL=enums.d.ts.map

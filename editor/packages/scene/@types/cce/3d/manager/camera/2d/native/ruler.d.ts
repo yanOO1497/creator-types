@@ -7,4 +7,3 @@ declare class Ruler implements IRuler {
     resize(width: number, height: number): void;
 }
 export { Ruler };
-//# sourceMappingURL=ruler.d.ts.map

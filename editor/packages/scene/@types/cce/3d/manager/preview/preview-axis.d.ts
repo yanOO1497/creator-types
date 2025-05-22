@@ -1,15 +1,15 @@
 import { Node, Vec3, Camera, Color } from 'cc';
-import ControllerBase from '../../../public/gizmos/3d/elements/controller/controller-base';
+import ControllerBase from '../../../public/gizmos/controller/base';
 export declare class PreviewWorldAxis extends ControllerBase {
     _sceneGizmoCamera: Camera;
     private _cameraOffset;
     private _textNodeMap;
     private synchronizeCamera;
-    shape: Node | null;
     constructor(rootNode: Node, synchronizeCamera: Camera);
     initShape(): void;
     private _hide;
     hide(): void;
+    show(): void;
     createShapeNode(name: string): void;
     createAxis(axisName: string, color: Color, rotation: Vec3): void;
     createAxisText(axis: string, uuid: string, color: Color): void;
@@ -17,4 +17,3 @@ export declare class PreviewWorldAxis extends ControllerBase {
     registerCameraMovedEvent(): void;
     onEditorCameraMoved(): void;
 }
-//# sourceMappingURL=preview-axis.d.ts.map

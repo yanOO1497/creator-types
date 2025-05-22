@@ -29,4 +29,3 @@ export declare class EngineStartup {
 }
 declare const engineStartup: EngineStartup;
 export default engineStartup;
-//# sourceMappingURL=index.d.ts.map

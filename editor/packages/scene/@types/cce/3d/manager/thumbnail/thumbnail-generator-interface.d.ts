@@ -12,4 +12,3 @@ declare class BaseThumbnailGenerator implements IThumbnailGenerator {
     setSize(width: number, height: number): void;
 }
 export { IThumbnailGenerator, BaseThumbnailGenerator };
-//# sourceMappingURL=thumbnail-generator-interface.d.ts.map

@@ -25,4 +25,3 @@ declare enum EventSourceType {
     ENGINE = "engine"
 }
 export { NodeEventType, NodeOperationType, EventSourceType };
-//# sourceMappingURL=event-enum.d.ts.map

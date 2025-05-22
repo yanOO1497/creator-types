@@ -1,3 +1,2 @@
-import gizmo from './3d/gizmo-manager';
-export default gizmo;
-//# sourceMappingURL=index.d.ts.map
+import { gizmoManager } from './manager/gizmo';
+export default gizmoManager;

@@ -19,4 +19,3 @@ interface ISceneEvents {
     onAssetChanged?(uuid: string, info?: any, meta?: any): void;
 }
 export { ISceneEvents };
-//# sourceMappingURL=scene-events-interface.d.ts.map

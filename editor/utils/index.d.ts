@@ -1,7 +1,15 @@
+import { SpawnOptions } from 'child_process';
 import * as NodeJSPath from 'path';
 
 export namespace Utils {
     export namespace File {
+        /**
+         * 检查文件在指定文件夹中是否存在，如果存在则通过追加数字后缀的方式生成一个唯一的文件名。
+         * @param targetFolder 
+         * @param fileName 
+         */
+        export function resolveFileNameConflict(targetFolder: string, fileName: string): string;
+
         /**
          * 初始化一个可用的文件名
          * Initializes a available filename
@@ -161,6 +169,15 @@ export namespace Utils {
          * @param when
          */
         export function checkWhen(when: string): boolean;
+        /**
+         * return result of versionMax > versionMin
+         * 仅支持纯数字版本，最高支持三位数版本号：333.666.345
+         * 入参需为字符串，输入不合格式的入参将会抛异常
+         * @example (3.6.2, 3.7.0) => false; (3.9.0, 3.8.0) => true; (3.8.0, 3.8.0) => false;
+         * @param versionMax
+         * @param versionMin
+         */
+        export function compareVersion(versionMax: string, versionMin: string): boolean;
     }
     export namespace Url {
         /**
@@ -222,7 +239,7 @@ export namespace Utils {
             ERROR,
             NULL,
         }
-        export interface IQuickSpawnOption {
+        export interface IQuickSpawnOption extends SpawnOptions {
             cwd?: string;
             env?: any;
             // 输出等级，默认 = 0，即 log 级别以上都打印

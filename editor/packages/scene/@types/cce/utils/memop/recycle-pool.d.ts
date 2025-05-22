@@ -41,4 +41,3 @@ export declare class RecyclePool<T = any> {
      */
     removeAt(idx: number): void;
 }
-//# sourceMappingURL=recycle-pool.d.ts.map

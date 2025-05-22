@@ -9,4 +9,3 @@ declare class Assets {
 }
 declare const _default: Assets;
 export default _default;
-//# sourceMappingURL=assets.d.ts.map

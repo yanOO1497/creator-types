@@ -12,8 +12,16 @@ export declare function walkChild(node: Node, uuid2node: any): void;
  */
 export declare function walk(scene: any, uuid2node: any): void;
 /**
+ * 设置节点层级
+ * @param node - 当前节点
+ * @param layer - 层级
+ * @param deep - 是否递归同步子节点
+ */
+export declare function setLayer(node: Node, layer: number, deep: boolean): void;
+/**
  * 获取有效的 ui Canvas 的节点，向上和向下找
  * @param node 节点
+ * @param prefabLimitRoot
  */
 export declare function getUICanvasNode(node: Node, prefabLimitRoot?: boolean): Node | null;
 /**
@@ -30,4 +38,5 @@ export declare function hasOneKindOfComponent(node: Node | Scene, kind: any): bo
  */
 export declare function getNodeName(name: string, parent: Node): string;
 export declare function visitNode(node: Node, visitor: (node: Node, isChild: boolean) => void | boolean, isChild?: boolean): void;
-//# sourceMappingURL=utils.d.ts.map
+export declare function createNodeMetrics(assetUuid: string): Promise<void>;
+export declare function createLODMetrics(node: any): Promise<void>;
