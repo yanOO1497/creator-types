@@ -1,9 +1,26 @@
 const fs = require('fs');
 const path = require('path');
+
+function isNormalizeVersion(version) {
+    return /^[0-9]+\.[0-9]+\.[0-9]+$/.test(version);
+}
+
 async function checkVersion() {
     // Get local package.json version
     const localPackage = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json')));
     const localVersion = localPackage.version;
+    const isPublicPackage = localPackage.name === '@editor/creator-types'
+    console.log(`Local version: ${localVersion}`);
+    if (!isNormalizeVersion(localVersion) && isPublicPackage) {
+        console.error('Local version is not normalize');
+        process.exit(1);
+    }
+
+    if (isPublicPackage && fs.existsSync(path.join(__dirname, '../editor/protected'))) {
+        // 检查是否混入 protected 定义
+        console.error('Local protected package is not clean');
+        process.exit(1);
+    }
 
     try {
         // Fetch GitHub master branch's package.json
