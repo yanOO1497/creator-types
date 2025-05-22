@@ -72,4 +72,3 @@ declare class GeneralSceneProxy extends SceneProxy {
     getRootNode(): Node | null;
 }
 export default GeneralSceneProxy;
-//# sourceMappingURL=general-scene-proxy.d.ts.map

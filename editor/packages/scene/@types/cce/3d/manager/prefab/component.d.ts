@@ -49,4 +49,3 @@ declare class ComponentOperation {
 }
 declare const componentOperation: ComponentOperation;
 export { componentOperation, IComponentPrefabData, IRemovedComponentInfo };
-//# sourceMappingURL=component.d.ts.map

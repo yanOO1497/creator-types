@@ -205,4 +205,3 @@ export declare class MVec3 {
     static project<Out extends IVec3Like>(out: Out, a: Out, b: Out): Out;
 }
 export {};
-//# sourceMappingURL=vec3.d.ts.map

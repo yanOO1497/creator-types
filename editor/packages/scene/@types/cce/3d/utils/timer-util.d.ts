@@ -17,4 +17,3 @@ declare class TimerUtil {
     static clearTimerAndInterval(): void;
 }
 export { TimerUtil };
-//# sourceMappingURL=timer-util.d.ts.map

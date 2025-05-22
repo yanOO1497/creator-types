@@ -22,4 +22,3 @@ declare class SceneViewData extends EventEmitter {
 }
 declare const sceneViewData: SceneViewData;
 export { SceneViewData, sceneViewData, IResolutionData };
-//# sourceMappingURL=scene-view-data.d.ts.map

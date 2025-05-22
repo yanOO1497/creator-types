@@ -121,4 +121,3 @@ export declare class MMat3 {
     static equals<Out extends IMat3Like>(a: Out, b: Out, epsilon?: number): boolean;
 }
 export {};
-//# sourceMappingURL=mat3.d.ts.map

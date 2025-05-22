@@ -7,4 +7,3 @@ declare class Env {
 }
 declare const EnvUtil: Env;
 export default EnvUtil;
-//# sourceMappingURL=env.d.ts.map

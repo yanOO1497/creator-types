@@ -21,4 +21,3 @@ export declare class SceneViewManager extends EventEmitter implements ISceneEven
 }
 declare const sceneViewManager: SceneViewManager;
 export { sceneViewManager };
-//# sourceMappingURL=index.d.ts.map

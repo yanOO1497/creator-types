@@ -22,4 +22,3 @@ export declare class MiniPreview extends PreviewBase implements ISceneEvents {
     setPreviewInfo(): void;
     getPreviewInfo(): any;
 }
-//# sourceMappingURL=index.d.ts.map

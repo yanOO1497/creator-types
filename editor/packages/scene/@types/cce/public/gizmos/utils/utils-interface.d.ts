@@ -55,4 +55,3 @@ declare class UtilsInterface {
     changePointer(type: string): void;
 }
 export default UtilsInterface;
-//# sourceMappingURL=utils-interface.d.ts.map

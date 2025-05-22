@@ -26,4 +26,3 @@ declare class AssetWatcherManager {
 }
 declare const assetWatcherManager: AssetWatcherManager;
 export { assetWatcherManager };
-//# sourceMappingURL=asset-watcher.d.ts.map

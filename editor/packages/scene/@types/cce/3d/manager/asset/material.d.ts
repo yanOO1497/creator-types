@@ -102,4 +102,3 @@ declare class MaterialAsset {
 }
 declare const _default: MaterialAsset;
 export default _default;
-//# sourceMappingURL=material.d.ts.map

@@ -1,10 +1,12 @@
+import { StatsQuery } from '@cocos/ccbuild';
 interface IRebuildOptions {
     debugNative?: boolean;
     isNativeScene?: boolean;
 }
-export declare function compileEngine(directory: string, force?: boolean): Promise<void>;
+export declare function compileEngine(directory: string, force?: boolean, options?: IRebuildOptions): Promise<void>;
 export declare function rebuild(options?: IRebuildOptions): Promise<void>;
 export declare function rebuildImportMaps(): Promise<void>;
+export declare function getCCEnvConstants(options: StatsQuery.ConstantManager.ConstantOptions): StatsQuery.ConstantManager.CCEnvConstants;
 interface IEngineGlobalConfig {
     'builtin': boolean;
     'custom': string;

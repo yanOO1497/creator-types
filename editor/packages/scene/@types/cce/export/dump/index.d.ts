@@ -57,4 +57,3 @@ declare class DumpUtil {
 }
 declare const _default: DumpUtil;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

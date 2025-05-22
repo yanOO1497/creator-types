@@ -49,4 +49,3 @@ export declare class TerrainManager extends EventEmitter {
 }
 declare const _default: TerrainManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

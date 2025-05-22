@@ -15,4 +15,3 @@ declare class WebviewIpc extends EventEmitter {
 }
 declare const ipc: WebviewIpc;
 export default ipc;
-//# sourceMappingURL=webview.d.ts.map

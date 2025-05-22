@@ -1,25 +1,23 @@
 /// <reference path="../../../../../../../resources/3d/engine/bin/.declarations/cc.d.ts" />
 /// <reference path="../../public/gizmos/utils/engine/3d.d.ts" />
-/// <reference path="../../public/gizmos/3d/gizmo-manager.d.ts" />
+/// <reference path="../../public/gizmos/manager/data.d.ts" />
 /// <reference path="../manager/asset/asset-watcher.d.ts" />
-/// <reference types="@cocos/creator-types/engine/cc" />
 import { CreateComponentOptions, CreateNodeOptions, CutNodeOptions, ExecuteComponentMethodOptions, ExecuteSceneScriptMethodOptions, IAnimOperation, MoveArrayOptions, PasteNodeOptions, QueryClassesOptions, RemoveArrayOptions, RemoveComponentOptions, RemoveNodeOptions, SetPropertyOptions, EditorCameraInfo } from '../../../../@types/public';
-import { IAniResultBase, IAssetMeta, IChangeNodeOptions, IOptionBase, ISceneUndoOptions } from '../../../../@types/private';
+import { IAniResultBase, IChangeNodeOptions, IOptionBase, ISceneUndoOptions } from '../../../../@types/private';
 import { ISceneFacadeState, SceneModeType } from './scene-facade-state-interface';
 import SceneProxy from '../manager/scene/proxy/scene-proxy';
 import { Component, ISizeLike, Node } from 'cc';
 import { ISceneEvents } from '../manager/scene-events-interface';
-import LightProbeEditModeListener from '../../public/gizmos/3d/elements/listener/light-probe-edit-mode-listener';
-import { TransformToolDataCoordinateType, TransformToolDataPivotType, TransformToolDataToolNameType } from '../../public/gizmos/utils/transform-tool-data';
-import { IAssetInfo } from '../../../../../asset-db/@types/protected';
+import { TransformToolDataCoordinateType, TransformToolDataPivotType, TransformToolDataToolNameType } from '../../public/gizmos/manager/transform-tool';
+import { IAssetInfo, IAssetMeta } from '@cocos/creator-types/editor/packages/asset-db/@types/public';
 import { SceneUndoCommandID, ISceneUndoManager } from '../../export/undo/index';
-export declare class GeneralSceneFacade implements ISceneFacadeState, LightProbeEditModeListener {
+export declare class GeneralSceneFacade implements ISceneFacadeState {
     protected _sceneMgr: import("../manager/scene/scene-manager").default;
     protected _cameraMgr: import("../manager/camera").Camera;
     protected _nodeMgr: import("../manager/node").NodeManager;
     protected _compMgr: import("../manager/component").CompManager;
     protected _assetMgr: import("../manager/asset").AssetManager;
-    protected _gizmoMgr: import("../../public/gizmos/3d/gizmo-manager").GizmoManager;
+    protected _gizmoMgr: import("../../public/gizmos/manager/gizmo").GizmoManager;
     protected _materialPreviewMgr: import("../manager/material-preview").MaterialPreview;
     protected _miniPreviewMgr: import("../manager/mini-preview").MiniPreview;
     protected _scriptMgr: import("../manager/scripts").ScriptManager;
@@ -47,16 +45,8 @@ export declare class GeneralSceneFacade implements ISceneFacadeState, LightProbe
     modeName: SceneModeType;
     closeSceneWhenExit: boolean;
     protected _sceneEventListener: ISceneEvents[];
-    private _lightProbeEditModeListener;
-    private _lightProbeEditMode;
-    set lightProbeEditMode(value: boolean);
-    get lightProbeEditMode(): boolean;
-    private _lightProbeBoundingBoxEditMode;
-    set lightProbeBoundingBoxEditMode(value: boolean);
-    get lightProbeBoundingBoxEditMode(): boolean;
     init(): void;
     initEventListener(): void;
-    registerLightProbeEditModeListener(listener: LightProbeEditModeListener): void;
     enter(opts: any): Promise<void>;
     resetUndo(): void;
     exit(): Promise<void>;
@@ -174,7 +164,8 @@ export declare class GeneralSceneFacade implements ISceneFacadeState, LightProbe
     assetDelete(uuid: string, info: any): void;
     assetRefresh(uuid: string): void;
     gizmoRefreshConfig(): Promise<void>;
-    queryGizmoToolName(): Promise<string>;
+    queryGizmoToolName(): string;
+    queryGizmoViewMode(): string;
     queryGizmoPivot(): Promise<string>;
     queryGizmoCoordinate(): Promise<string>;
     queryIs2D(): Promise<boolean>;
@@ -182,6 +173,7 @@ export declare class GeneralSceneFacade implements ISceneFacadeState, LightProbe
     queryIconGizmoSize(): number;
     updateInnerTetrahedron(): void;
     setTransformToolName(name: TransformToolDataToolNameType): Promise<void>;
+    queryIsViewMode(): boolean;
     setPivot(name: TransformToolDataPivotType): Promise<void>;
     setCoordinate(type: TransformToolDataCoordinateType): Promise<void>;
     setIs2D(value: boolean): Promise<void>;
@@ -230,8 +222,8 @@ export declare class GeneralSceneFacade implements ISceneFacadeState, LightProbe
     queryScriptName(uuid: string): Promise<any>;
     queryScriptCid(uuid: string): Promise<any>;
     loadScript(uuid: string): Promise<void>;
-    removeScript(info: any): Promise<void>;
-    scriptChange(info: any): Promise<void>;
+    removeScript(info: IAssetInfo): Promise<void>;
+    scriptChange(info: IAssetInfo): Promise<void>;
     querySelection(): string[];
     isSelectNode(uuid: string): boolean;
     selectNode(uuid: string): void;
@@ -289,15 +281,6 @@ export declare class GeneralSceneFacade implements ISceneFacadeState, LightProbe
     queryLightProbeEditMode(): boolean;
     toggleLightProbeBoundingBoxEditMode(mode: boolean | undefined): boolean;
     queryLightProbeBoundingBoxEditMode(): boolean;
-    lightProbeInfoChanged(): void;
-    /**
-     * _lightProbeEditModeListener的注册在
-     * @see registerLightProbeEditModeListener
-     * @param mode
-     */
-    lightProbeEditModeChanged(mode: boolean): void;
-    boundingBoxEditModeChanged(mode: boolean): void;
     changeTitle(): Promise<void>;
 }
 export default GeneralSceneFacade;
-//# sourceMappingURL=general-scene-facade.d.ts.map

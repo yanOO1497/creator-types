@@ -6,4 +6,3 @@ declare class EventEmitter {
     emit(event: string, ...args: any[]): false | undefined;
 }
 export { EventEmitter };
-//# sourceMappingURL=event-emitter.d.ts.map

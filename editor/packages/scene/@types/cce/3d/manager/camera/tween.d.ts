@@ -48,4 +48,3 @@ declare function tweenPosition(start: Vec3, end: Vec3, time?: number): PositionA
 declare function tweenRotation(start: Quat, end: Quat, time: number): RotationAnimation;
 declare function tweenNumber(start: number, end: number, time: number): NumberAnimation;
 export { tweenPosition, tweenRotation, tweenNumber };
-//# sourceMappingURL=tween.d.ts.map

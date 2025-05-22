@@ -13,7 +13,6 @@ declare class PrefabSceneProxy extends SceneProxy {
      */
     open(uuid: string): Promise<boolean>;
     _loadPrefabByData(uuid: string, prefab: any): Promise<boolean>;
-    _sceneWrapCanvasNode(scene: any): Promise<any>;
     checkClose(): Promise<boolean>;
     /**
      * 关闭正在编辑的场景
@@ -67,4 +66,3 @@ declare class PrefabSceneProxy extends SceneProxy {
     getRootNode(): Node;
 }
 export default PrefabSceneProxy;
-//# sourceMappingURL=prefab-scene-proxy.d.ts.map

@@ -103,4 +103,3 @@ declare class SceneUndoManager extends UndoManagerBase implements ISceneUndoMana
     record(node: string): void;
 }
 export { SceneUndoManager, SceneUndoCommand, SceneUndoCommandID, ISceneUndoOption, ISceneUndoManager };
-//# sourceMappingURL=scene.d.ts.map

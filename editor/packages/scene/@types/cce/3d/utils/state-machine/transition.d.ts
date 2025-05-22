@@ -11,4 +11,3 @@ declare class DefaultStateTransition<TState extends IState> extends Transition<T
     constructor(from: TState, to: TState, testConditionFunc?: Function | null);
 }
 export { Transition, DefaultStateTransition };
-//# sourceMappingURL=transition.d.ts.map

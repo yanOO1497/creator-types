@@ -9,4 +9,3 @@ declare class PanMode extends ModeBase {
     onMouseMove(event: ISceneMouseEvent): boolean;
 }
 export { PanMode };
-//# sourceMappingURL=pan-mode.d.ts.map

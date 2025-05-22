@@ -58,7 +58,7 @@ interface Mat3 {
     m08: number;
 }
 
-interface Mat4 {
+export interface Mat4 {
     m00: number;
     m01: number;
     m02: number;
@@ -144,6 +144,11 @@ export interface CreateNodeOptions {
     // 未使用的参数
     // dump?: INode | IScene; // node 初始化应用的数据
     // components?: string[];
+    /**
+     * 根据 2D 或者 3D 模式来创建节点，
+     * 例如：开启以后，创建图片在 3D 模式下会创建 SpriteRenderer 反之用 Sprite
+     */
+    autoAdaptToCreate?: boolean;
 }
 
 export interface ResetNodeOptions {
@@ -187,7 +192,7 @@ export interface ExecuteSceneScriptMethodOptions {
     args: any[];
 }
 
-export type IPropertyValueType = IProperty | IProperty[] | null | undefined | number | boolean | string | Vec4 | Vec3 | Vec2;
+export type IPropertyValueType = IProperty | IProperty[] | null | undefined | number | boolean | string | Vec4 | Vec3 | Vec2 | Mat4 | Array<unknown>
 
 export interface IPropertyGroupOptions {
     id: string // 默认 'default'

@@ -27,4 +27,3 @@ declare class UniformHandler {
 }
 declare const uniformHandler: UniformHandler;
 export { uniformHandler };
-//# sourceMappingURL=uniform-handler.d.ts.map

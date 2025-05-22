@@ -50,4 +50,3 @@ declare class UndoManagerBase {
     isDirty(): boolean;
 }
 export { UndoCommand, UndoManagerBase };
-//# sourceMappingURL=base.d.ts.map

@@ -106,6 +106,7 @@ export declare class Camera extends EventEmitter implements ISceneEvents {
     reset(position: Vec3, rotation: Quat): void;
     alignNodeToSceneView(nodes: string[]): void;
     alignSceneViewToNode(nodes: string[]): void;
+    onMouseDBlDown(event: any): boolean;
     onMouseDown(event: any): boolean;
     onMouseMove(event: any): boolean;
     onMouseUp(event: any): boolean;
@@ -129,4 +130,3 @@ export declare class Camera extends EventEmitter implements ISceneEvents {
 }
 declare const _default: Camera;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

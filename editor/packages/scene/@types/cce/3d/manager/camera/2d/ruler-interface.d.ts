@@ -6,4 +6,3 @@ interface IRuler {
     resize(width: number, height: number): void;
 }
 export { IRuler };
-//# sourceMappingURL=ruler-interface.d.ts.map

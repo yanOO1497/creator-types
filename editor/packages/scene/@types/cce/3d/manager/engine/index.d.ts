@@ -56,4 +56,3 @@ export declare class EngineManager extends EventEmitter implements ISceneEvents 
 }
 declare const engineManager: EngineManager;
 export { engineManager, NeedAnimState };
-//# sourceMappingURL=index.d.ts.map

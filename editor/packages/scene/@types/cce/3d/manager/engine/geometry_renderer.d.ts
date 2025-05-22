@@ -15,4 +15,3 @@ declare class GeometryRenderer {
     removeDataAll(): void;
 }
 export { GeometryRenderer };
-//# sourceMappingURL=geometry_renderer.d.ts.map

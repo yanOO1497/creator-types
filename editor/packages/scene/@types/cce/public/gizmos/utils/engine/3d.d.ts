@@ -9,8 +9,14 @@ declare module 'cc' {
     }
 }
 import { Camera, Color, Component, geometry, gfx, IVec3Like, Light, math, MeshRenderer, ModelComponent, Node, primitives, Material, Mesh, Layers, physics } from 'cc';
-import { IAddMeshToNodeOption, ICreateMeshOption, IMeshPrimitive, DynamicMeshPrimitive } from '../../defines';
+import { IRaycastResult } from '../../../../utils/raycast';
+import type { IAddMeshToNodeOption, ICreateMeshOption, IMeshPrimitive, DynamicMeshPrimitive } from '../defines';
 import EngineInterface from './engine-interface';
+export declare const ray: geometry.Ray;
+export declare class RaycastResults extends Array<IRaycastResult> {
+    ray: geometry.Ray;
+    constructor(ray: geometry.Ray);
+}
 export declare enum HighlightFace {
     NONE = 0,
     UP = 1,
@@ -43,9 +49,19 @@ export declare class Engine3D implements EngineInterface {
     setNodeOpacity(node: Node, opacity: number): void;
     getNodeOpacity(node: Node): number;
     setMaterialProperty(node: Node, propName: string, value: any): void;
-    getRaycastResults(rootNode: Node, x: number, y: number, distance?: number, excludeMask?: number): any;
-    getRaycastResultsByNodes(nodes: Node[], x: number, y: number, distance: number | undefined, forSnap: boolean, excludeMask?: number): any;
-    raycast(scene: any, camera: any, layer: any, x: number, y: number, distance?: number, excludeMask?: number): any;
+    /**
+     * 返回射线检测查到的数据
+     *   需要注意，这里返回的对象，可能会在对象池里复用，最终会导致数据变化
+     * @param rootNode
+     * @param x
+     * @param y
+     * @param distance
+     * @param excludeMask
+     * @returns
+     */
+    getRaycastResults(rootNode: Node, x: number, y: number, distance?: number, excludeMask?: number): RaycastResults;
+    getRaycastResultsByNodes(nodes: Node[], x: number, y: number, distance: number | undefined, forSnap: boolean, excludeMask?: number): RaycastResults;
+    raycast(scene: any, camera: any, layer: any, x: number, y: number, distance?: number, excludeMask?: number): RaycastResults | null;
     raycastAllColliders(camera: any, x: number, y: number): physics.PhysicsRayResult[] & {
         ray?: geometry.Ray;
     };
@@ -54,7 +70,7 @@ export declare class Engine3D implements EngineInterface {
     updateVBAttr(comp: MeshRenderer, attr: string, data: number[]): void;
     updateIB(comp: MeshRenderer, data: number[]): void;
     updateBoundingBox(meshComp: MeshRenderer, minPos?: math.Vec3, maxPos?: math.Vec3): void;
-    getBoundingBox(component: Component): import("../../../../utils/aabb").default | geometry.AABB | null;
+    getBoundingBox(component: Component): geometry.AABB | import("../../../../utils/aabb").default | null;
     getRootBoneNode(component: any): Node | null;
     getRootBindPose(component: any): math.Mat4 | null;
     getCameraData(component: Camera): any;
@@ -64,4 +80,3 @@ export declare class Engine3D implements EngineInterface {
 }
 declare const _default: Engine3D;
 export default _default;
-//# sourceMappingURL=3d.d.ts.map

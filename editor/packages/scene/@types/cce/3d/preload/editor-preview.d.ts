@@ -11,4 +11,3 @@ declare class EditorPreview {
 }
 declare const _default: EditorPreview;
 export default _default;
-//# sourceMappingURL=editor-preview.d.ts.map

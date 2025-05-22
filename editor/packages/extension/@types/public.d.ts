@@ -5,7 +5,7 @@ export interface ExtensionCreator {
     load?(): void | Promise<void>;
     unload?(): void | Promise<void>;
     methods: {
-        create(info: CreateInfo, packageJSON: any/*Editor.Interface.PackageJson*/): Promise<void> | void;
+        create(info: CreateInfo, packageJSON: any /*Editor.Interface.PackageJson*/): Promise<void> | void;
     };
 }
 
@@ -37,12 +37,12 @@ export type ExtensionInfo = {
 export interface ICreateExtensionResponse {
     success: boolean;
     msg: string;
-    stack: string
+    stack: string;
 }
 
 export interface ICreateTemplateParam extends Partial<Omit<CreateInfo, 'template'>> {
     /** 模板类型，extension 或者 builder  */
-    type: string; 
+    type: string;
     /** 模板的id */
     templateId: string;
     /** 是否在创建完成后打开目标目录 */

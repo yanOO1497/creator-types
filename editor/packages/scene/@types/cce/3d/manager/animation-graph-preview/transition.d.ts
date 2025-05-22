@@ -11,4 +11,3 @@ declare class TransitionPreview extends AnimationGraphPreviewBase<animationApi.T
     protected getUpdateMessageName(): string;
 }
 export { TransitionPreview };
-//# sourceMappingURL=transition.d.ts.map

@@ -4,4 +4,3 @@ declare class WireframeNode extends cc.Node {
     get isWireframeNode(): boolean;
 }
 export default WireframeNode;
-//# sourceMappingURL=wireframe.d.ts.map

@@ -35,4 +35,3 @@ declare class WanderMode extends ModeBase {
     onUpdate(deltaTime: number): void;
 }
 export { WanderMode };
-//# sourceMappingURL=wander-mode.d.ts.map

@@ -96,4 +96,3 @@ export declare class CallbacksInvoker {
     emit(key: string, ...args: any[]): void;
 }
 export {};
-//# sourceMappingURL=callbacks-invoker.d.ts.map

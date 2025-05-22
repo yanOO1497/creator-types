@@ -9,4 +9,3 @@ export declare class Physics2DManager {
 }
 declare const _default: Physics2DManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

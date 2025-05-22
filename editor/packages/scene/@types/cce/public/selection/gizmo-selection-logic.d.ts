@@ -1,4 +1,3 @@
-import '../gizmos/utils/set-util';
 import SimpleSet from '../gizmos/utils/set-util';
 export type UUID = string;
 export type ProcessResult = {
@@ -27,4 +26,3 @@ export default class GizmoSelectionLogic {
     clear(): void;
     confirm(): void;
 }
-//# sourceMappingURL=gizmo-selection-logic.d.ts.map

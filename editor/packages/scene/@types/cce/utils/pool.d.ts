@@ -8,4 +8,3 @@ export default class Pool<T> {
     clear(fn: (obj: T) => void): void;
     private _expand;
 }
-//# sourceMappingURL=pool.d.ts.map

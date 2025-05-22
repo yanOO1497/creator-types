@@ -39,6 +39,7 @@ export interface ISettings {
         renderMode?: number;
         // effect.bin
         effectSettingsPath?: string;
+        customPipeline?: boolean;
     };
     assets: {
         server: string;
@@ -100,17 +101,45 @@ export interface IRawAssetPathInfo extends IAssetPathBase {
 }
 export declare interface IAssetPathInfo extends IAssetPathBase {
     raw?: string[];
+
+    // import: 该资源在 import 目录下的路径，包括 .json 和 .bin 文件
+    import?: string;
+
+    /**
+     * @deprecated please use `import` instead
+     */
     json?: string;
+    /**
+     * @deprecated please use `import` instead
+     */
+    bin?: string;
+
     groupIndex?: number;
 }
 
-export interface IJsonPathInfo extends IAssetPathBase {
+/**
+ * @deprecated please use `IImportAssetPathInfo` instead
+ */
+export type IJsonPathInfo = IImportAssetPathInfo;
+
+export interface IImportAssetPathInfo extends IAssetPathBase {
+    // import: 该资源在 import 目录下的路径，包括 .json 和 .bin 文件
+    import?: string;
+    /**
+     * @deprecated please use `import` instead
+     */
     json?: string;
+    /**
+     * @deprecated please use `import` instead
+     */
+    bin?: string;
     groupIndex?: number;
 }
 
 export interface IBuildPaths {
-    dir: string; // 构建资源输出地址（ assets 所在的目录，并不一定与构建目录对应）
+    dir: string; // 构建资源输出地址（ assets 所在的目录，并不一定与构建输出目录对应）
+    readonly output: string; // 标准的构建输出目录，不可修改
+    effectBin?: string; // effect.bin 输出地址
     settings: string; // settings.json 输出地址
     systemJs?: string; // system.js 生成地址
     engineDir?: string; // 引擎生成地址
@@ -120,10 +149,12 @@ export interface IBuildPaths {
     remote: string; // remote 目录
     bundleScripts: string // bundle 的脚本，某些平台无法下载脚本，则将远程包中的脚本移到本地
     applicationJS: string; // application.js 的生成地址
-    compileConfig?: string; // cocos.compile.config.json
+    compileConfig: string; // cocos.compile.config.json
     importMap: string; // import-map 文件地址
+    engineMeta: string; // 引擎构建结果的 meta 文件路径
 
     plugins: Record<string, string>;
+    hashedMap: Record<string, string>; // 用于记录被编辑器添加过 md5 hash 值的路径 map
 }
 
 export declare class IBuildResult {
@@ -146,16 +177,18 @@ export declare class IBuildResult {
     getRawAssetPaths: (uuid: string) => IRawAssetPathInfo[];
 
     /**
-     * 获取指定 uuid 资源的序列化 json 路径
+     * @deprecated please use getImportAssetPaths instead
+     * 获取指定 uuid 资源的序列化 json 路径信息
      */
-    getJsonPathInfo: (uuid: string) => IJsonPathInfo[];
+    getJsonPathInfo: (uuid: string) => IImportAssetPathInfo[];
+    getImportAssetPaths: (uuid: string) => IImportAssetPathInfo[];
 
     /**
      * 获取指定 uuid 资源的路径相关信息
-     * @return {raw?: string[]; json?: string; groupIndex?: number;}
-     * @return.raw: 该资源源文件的实际存储位置
-     * @return.json: 该资源序列化 json 的实际存储位置，不存在为空
-     * @return.groupIndex: 若该资源的序列化 json 在某个 json 分组内，这里标识在分组内的 index，不存在为空
+     * @return Array<{raw?: string | string[]; import?: string; groupIndex?: number;}>
+     * @return.raw: 该资源源文件的实际存储位置，存在多个为数组，不存在则为空
+     * @return.import: 该资源序列化数据的实际存储位置，不存在为空，可能是 .bin 或者 .json 格式
+     * @return.groupIndex: 若该资源的序列化数据在某个分组内，这里标识在分组内的 index，不存在为空
      */
     getAssetPathInfo: (uuid: string) => IAssetPathInfo[];
 }
@@ -182,4 +215,16 @@ export interface IBundleConfig {
      */
     hasPreloadScript: boolean;
     dependencyRelationships: Record<string, Array<UUID | number>>;
+}
+
+export interface ICompressConfig {
+    src: string;
+    mipmapFiles?: string[];
+    dest: string;
+    compressOptions: Record<string, any>;
+    format: ITextureCompressType;
+    customConfig?: ICustomConfig;
+    uuid: string;
+    suffix: string;
+    formatType: ITextureCompressFormatType;
 }

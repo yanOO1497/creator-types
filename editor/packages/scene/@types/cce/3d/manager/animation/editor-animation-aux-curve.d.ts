@@ -71,4 +71,3 @@ export declare class EditorAnimationAuxCurve extends EditorAnimationCurveBase {
     getPropValueAtFrame(frame: number): Promise<import("../../../../../@types/public").IProperty | null>;
     private _getMockCurve;
 }
-//# sourceMappingURL=editor-animation-aux-curve.d.ts.map

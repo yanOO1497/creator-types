@@ -4,4 +4,3 @@ interface IUnitTest {
     clear(): Promise<boolean>;
 }
 export { IUnitTest };
-//# sourceMappingURL=unit-test-interface.d.ts.map

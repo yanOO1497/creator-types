@@ -4,4 +4,3 @@ export declare class UIManager {
 }
 declare const _default: UIManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

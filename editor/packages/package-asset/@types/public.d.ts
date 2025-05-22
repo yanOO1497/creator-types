@@ -55,6 +55,6 @@ export interface IAssetInfo {
 
     instantiation?: string; // 虚拟资源可以实例化成实体的话，会带上这个扩展名
     redirect?: IRedirectInfo; // 跳转指向资源
-    meta?: any,
+    meta?: any;
     fatherInfo?: any;
 }

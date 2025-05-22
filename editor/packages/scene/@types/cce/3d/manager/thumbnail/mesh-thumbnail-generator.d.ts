@@ -9,4 +9,3 @@ declare class MeshThumbnailGenerator extends BaseThumbnailGenerator {
     private generate;
 }
 export default MeshThumbnailGenerator;
-//# sourceMappingURL=mesh-thumbnail-generator.d.ts.map

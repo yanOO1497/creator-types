@@ -19,4 +19,3 @@ declare class ToPrefabTransition<TState extends ISceneFacadeState> extends Trans
     Complete(): Promise<void>;
 }
 export { ToAnimationTransition, ToGeneralTransition, ToPrefabTransition, ToPreviewTransition };
-//# sourceMappingURL=scene-facade-state-transition.d.ts.map

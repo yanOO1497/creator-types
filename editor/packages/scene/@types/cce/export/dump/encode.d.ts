@@ -30,4 +30,3 @@ declare const _default: {
     encodeObject: typeof encodeObject;
 };
 export default _default;
-//# sourceMappingURL=encode.d.ts.map

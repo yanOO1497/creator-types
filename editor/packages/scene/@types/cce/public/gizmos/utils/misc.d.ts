@@ -7,4 +7,3 @@ declare class GizmosUtils {
     getMaxCompInVec3(inVec3: Vec3): number;
 }
 export default GizmosUtils;
-//# sourceMappingURL=misc.d.ts.map

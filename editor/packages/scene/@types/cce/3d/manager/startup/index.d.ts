@@ -1,4 +1,4 @@
-import { EngineInfo } from '../../../../../../engine/@types';
+import type { EngineInfo } from '../../../../../../engine/@types';
 import type { IGameConfig } from 'cc';
 export interface InitInfo extends EngineInfo {
     project: string;
@@ -26,12 +26,17 @@ declare class StartupManager {
         name: string;
         value: number;
     }[]): Promise<void>;
+    private getDesignResolutionPolicy;
     /**
-     * 设置设计分辨率
-     * @param {*} width
-     * @param {*} height
+     * 初始化设计分辨率，根据 project:general.designResolution 数据
      */
-    initDesignResolution(width: number, height: number): Promise<void>;
+    initDesignResolution(): Promise<void>;
+    /**
+     * 更新 Design Resolution 大小
+     * @param width
+     * @param height
+     */
+    changeDesignResolution(width: number, height: number): void;
     /**
      * 设置自定义层
      * @param {*} layers
@@ -55,4 +60,3 @@ declare class StartupManager {
 }
 declare const _default: StartupManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

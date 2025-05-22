@@ -50,4 +50,3 @@ declare class EditorAnimationCombinedCurve extends EditorAnimationCurveBase {
     getPropValueAtFrame(frame: number): Promise<import("../../../../../@types/public").IProperty | null>;
 }
 export default EditorAnimationCombinedCurve;
-//# sourceMappingURL=editor-animation-combined-curve.d.ts.map

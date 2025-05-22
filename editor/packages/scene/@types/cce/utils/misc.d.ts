@@ -5,4 +5,8 @@ export { promisify, existsSync, readFileSync, readJSONSync, ensureDirSync, write
 export { basename, join, relative, extname };
 export declare function get(object: any, path: any, value?: any): any;
 export declare function set(object: any, path: any, value: any): any;
-//# sourceMappingURL=misc.d.ts.map
+/**
+ * sleep
+ * @param time 时间，单位秒
+ */
+export declare function sleep(time: number): Promise<void>;

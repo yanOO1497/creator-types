@@ -50,4 +50,3 @@ declare class AnimationSceneProxy extends SceneProxy {
     getRootNode(): Scene | null;
 }
 export default AnimationSceneProxy;
-//# sourceMappingURL=animation-scene-proxy.d.ts.map

@@ -301,4 +301,3 @@ declare class EditorAnimationClip {
     private _getAnimState;
 }
 export default EditorAnimationClip;
-//# sourceMappingURL=editor-animation-clip.d.ts.map

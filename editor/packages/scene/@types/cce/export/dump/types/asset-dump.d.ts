@@ -6,4 +6,3 @@ declare class AssetDump implements DumpInterface {
 }
 export declare const assetDump: AssetDump;
 export {};
-//# sourceMappingURL=asset-dump.d.ts.map

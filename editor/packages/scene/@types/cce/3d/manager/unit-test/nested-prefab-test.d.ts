@@ -6,4 +6,3 @@ declare class NestedPrefabTest implements IUnitTest {
 }
 declare const nestedPrefabTest: NestedPrefabTest;
 export { nestedPrefabTest };
-//# sourceMappingURL=nested-prefab-test.d.ts.map

@@ -64,4 +64,3 @@ declare class Time {
 }
 declare const _default: Time;
 export default _default;
-//# sourceMappingURL=time.d.ts.map

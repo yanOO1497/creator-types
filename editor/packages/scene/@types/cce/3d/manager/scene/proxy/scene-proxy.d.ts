@@ -81,4 +81,3 @@ declare class SceneProxy {
     restoreScenePrefabUUID(): void;
 }
 export default SceneProxy;
-//# sourceMappingURL=scene-proxy.d.ts.map

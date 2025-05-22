@@ -151,4 +151,3 @@ export declare class MVec2 {
     static angle<Out extends IVec2Like>(a: Out, b: Out): number;
 }
 export {};
-//# sourceMappingURL=vec2.d.ts.map

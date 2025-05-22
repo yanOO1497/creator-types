@@ -1,4 +1,5 @@
-import { AssetInfo, QueryAssetsOption, AssetOperationOption, IAssetMeta, MissingAssetInfo } from './public';
+import { AssetInfo, QueryAssetsOption, AssetOperationOption, IAssetMeta, IAssetInfo } from './public';
+import { MissingAssetInfo } from '@editor/asset-db/libs/info';
 
 export interface message extends EditorMessageMap {
     'query-ready': {
@@ -11,7 +12,7 @@ export interface message extends EditorMessageMap {
             string | Buffer | null,
         ] | [
             string,
-            string | Buffer | null,
+            string | Buffer | null, 
             AssetOperationOption,
         ],
         result: AssetInfo | null,
@@ -79,13 +80,13 @@ export interface message extends EditorMessageMap {
         params: [
             string,
         ],
-        result: boolean,
+        result: void,
     },
     'refresh-asset': {
         params: [
             string
         ],
-        result: boolean,
+        result: void,
     },
     'query-asset-info': {
         params: [
@@ -106,6 +107,30 @@ export interface message extends EditorMessageMap {
         ],
         result: IAssetMeta | null,
     },
+    /**
+     * 查询资源被哪些资源或脚本直接使用到
+     * @param uuidOrURL 资源的 uuid 或者 url
+     * @param type 可选，指定查询的资源类型，默认 asset, 可选值：asset, script, all
+     */
+    'query-asset-users': {
+        params: [
+            string,
+            QueryAssetType?
+        ],
+        result: string[],
+    },
+    /**
+     * 查询资源依赖的资源或脚本 uuid 数组
+     * @param uuidOrURL 资源的 uuid 或者 url
+     * @param type 可选，指定查询的资源类型，默认 asset, 可选值：asset, script, all
+     */
+    'query-asset-dependencies': {
+        params: [
+            string,
+            QueryAssetType?
+        ],
+        result: string[],
+    },
     'query-path': {
         params: [
             string,
@@ -125,9 +150,10 @@ export interface message extends EditorMessageMap {
         result: string | null,
     },
     'query-assets': {
-        params: [] | [
-            QueryAssetsOption,
-        ] | [QueryAssetsOption, string[]],
+        params: [
+            options?: QueryAssetsOption,
+            dataKeys?: (keyof IAssetInfo)[]
+        ],
         result: AssetInfo[],
     },
     'generate-available-url': {

@@ -38,4 +38,3 @@ declare class SceneUtil {
 }
 declare const _default: SceneUtil;
 export default _default;
-//# sourceMappingURL=utils.d.ts.map

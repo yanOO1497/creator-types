@@ -19,4 +19,3 @@ export declare class SceneSelection extends EventEmitter {
 }
 declare const _default: SceneSelection;
 export default _default;
-//# sourceMappingURL=selection.d.ts.map

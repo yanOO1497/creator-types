@@ -1,4 +1,5 @@
-import { EngineInfo } from './index';
+import { EngineInfo, ICroppingConfig } from './index';
+
 export interface message extends EditorMessageMap {
     'query-info': {
         params: [] | [

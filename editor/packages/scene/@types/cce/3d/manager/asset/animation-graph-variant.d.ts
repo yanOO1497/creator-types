@@ -11,4 +11,3 @@ declare class EditAnimationGraphVariant extends EditComponentAsset {
 }
 declare const _default: EditAnimationGraphVariant;
 export default _default;
-//# sourceMappingURL=animation-graph-variant.d.ts.map

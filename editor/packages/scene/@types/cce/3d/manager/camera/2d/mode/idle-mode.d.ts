@@ -4,4 +4,3 @@ declare class IdleMode extends ModeBase {
     exit(): Promise<void>;
 }
 export { IdleMode };
-//# sourceMappingURL=idle-mode.d.ts.map
