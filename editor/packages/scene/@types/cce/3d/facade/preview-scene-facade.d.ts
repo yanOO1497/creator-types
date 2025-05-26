@@ -26,4 +26,3 @@ declare class PreviewSceneFacade extends GeneralSceneFacade {
     saveScene(asNew: boolean): Promise<boolean>;
 }
 export default PreviewSceneFacade;
-//# sourceMappingURL=preview-scene-facade.d.ts.map

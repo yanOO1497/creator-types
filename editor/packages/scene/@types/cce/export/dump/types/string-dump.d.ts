@@ -6,4 +6,3 @@ declare class StringDump implements DumpInterface {
 }
 export declare const stringDump: StringDump;
 export {};
-//# sourceMappingURL=string-dump.d.ts.map

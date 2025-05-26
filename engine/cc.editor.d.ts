@@ -125,22 +125,24 @@ declare module "cc/editor/custom-pipeline" {
     }
     export type in_edge_iterator = InEI | InEPI;
     export interface Graph {
-        readonly directed_category: directional;
-        readonly edge_parallel_category: parallel;
-        readonly traversal_category: traversal;
-        nullVertex(): vertex_descriptor | null;
+        readonly N: number | null;
     }
     export interface IncidenceGraph extends Graph {
         edge(u: vertex_descriptor, v: vertex_descriptor): boolean;
         source(e: edge_descriptor): vertex_descriptor;
         target(e: edge_descriptor): vertex_descriptor;
-        outEdges(v: vertex_descriptor): out_edge_iterator;
-        outDegree(v: vertex_descriptor): number;
+        /** Return out edge iterator of the vertex */
+        oe(v: vertex_descriptor): out_edge_iterator;
+        /** Return out degree of the vertex */
+        od(v: vertex_descriptor): number;
     }
     export interface BidirectionalGraph extends IncidenceGraph {
-        inEdges(v: vertex_descriptor): in_edge_iterator;
-        inDegree(v: vertex_descriptor): number;
-        degree(v: vertex_descriptor): number;
+        /** Return in edge iterator of the vertex */
+        ie(v: vertex_descriptor): in_edge_iterator;
+        /** Return in degree of the vertex */
+        id(v: vertex_descriptor): number;
+        /** Return degree of the vertex */
+        d(v: vertex_descriptor): number;
     }
     export class AdjI implements IterableIterator<vertex_descriptor> {
         constructor(graph: IncidenceGraph, iterator: OutEI);
@@ -158,25 +160,24 @@ declare module "cc/editor/custom-pipeline" {
     }
     export type adjacency_iterator = AdjI | AdjPI;
     export interface AdjacencyGraph extends Graph {
-        adjacentVertices(v: vertex_descriptor): adjacency_iterator;
+        /** Return adjacenct vertex iterator */
+        adj(v: vertex_descriptor): adjacency_iterator;
     }
     export interface VertexListGraph extends Graph {
-        vertices(): IterableIterator<vertex_descriptor>;
-        numVertices(): number;
+        /** Return vertex iterator */
+        v(): IterableIterator<vertex_descriptor>;
+        /** Return number of vertices */
+        nv(): number;
     }
     export interface EdgeListGraph extends Graph {
-        edges(): IterableIterator<edge_descriptor>;
-        numEdges(): number;
+        /** Return number of edges */
+        ne(): number;
         source(e: edge_descriptor): vertex_descriptor;
         target(e: edge_descriptor): vertex_descriptor;
     }
     export interface MutableGraph extends Graph {
         addVertex(...args: any[]): vertex_descriptor;
-        clearVertex(v: vertex_descriptor): void;
-        removeVertex(v: vertex_descriptor): void;
         addEdge(u: vertex_descriptor, v: vertex_descriptor, p?: unknown): edge_descriptor | null;
-        removeEdges(u: vertex_descriptor, v: vertex_descriptor): void;
-        removeEdge(e: edge_descriptor): void;
     }
     export interface PropertyMap {
         get(x: vertex_descriptor | edge_descriptor): unknown;
@@ -185,23 +186,19 @@ declare module "cc/editor/custom-pipeline" {
         put(x: vertex_descriptor, value: T): void;
     }
     export interface PropertyGraph extends Graph {
-        get(tag: string): PropertyMap;
     }
     export interface NamedGraph extends Graph {
         vertexName(v: vertex_descriptor): string;
-        vertexNameMap(): PropertyMap;
     }
     export interface ComponentGraph extends Graph {
-        readonly components: string[];
-        component(id: number, v: vertex_descriptor): unknown;
-        componentMap(id: number): unknown;
     }
     export interface PolymorphicGraph extends Graph {
-        holds(id: number, v: vertex_descriptor): boolean;
-        id(v: vertex_descriptor): number;
+        /** Checks if a vertex currently holds a given type */
+        h(id: number, v: vertex_descriptor): boolean;
+        /** Returns the zero-based index of the alternative held by the vertex */
+        w(v: vertex_descriptor): number;
         object(v: vertex_descriptor): unknown;
         value(id: number, v: vertex_descriptor): unknown;
-        tryValue(id: number, v: vertex_descriptor): unknown;
         visitVertex(visitor: unknown, v: vertex_descriptor): void;
     }
     export type reference_descriptor = ED | EPD;
@@ -211,23 +208,17 @@ declare module "cc/editor/custom-pipeline" {
         reference(u: vertex_descriptor, v: vertex_descriptor): boolean;
         parent(e: reference_descriptor): vertex_descriptor;
         child(e: reference_descriptor): vertex_descriptor;
-        parents(v: vertex_descriptor): parent_iterator;
         children(v: vertex_descriptor): child_iterator;
-        numParents(v: vertex_descriptor): number;
         numChildren(v: vertex_descriptor): number;
         getParent(v: vertex_descriptor): vertex_descriptor | null;
-        isAncestor(ancestor: vertex_descriptor, descendent: vertex_descriptor): boolean;
     }
     export interface MutableReferenceGraph extends ReferenceGraph {
         addReference(u: vertex_descriptor, v: vertex_descriptor, p?: unknown): reference_descriptor | null;
-        removeReference(e: reference_descriptor): void;
-        removeReferences(u: vertex_descriptor, v: vertex_descriptor): void;
     }
     export interface ParentGraph extends ReferenceGraph, NamedGraph {
         locateChild(v: vertex_descriptor | null, name: string): vertex_descriptor | null;
     }
     export interface AddressableGraph extends ParentGraph {
-        addressable(absPath: string): boolean;
         locate(absPath: string): vertex_descriptor | null;
         locateRelative(path: string, start?: vertex_descriptor | null): vertex_descriptor | null;
         path(v: vertex_descriptor): string;
@@ -271,67 +262,133 @@ declare module "cc/editor/custom-pipeline" {
     }
     export class ReferenceGraphView<BaseGraph extends ReferenceGraph & VertexListGraph> implements IncidenceGraph, VertexListGraph {
         constructor(g: BaseGraph);
-        nullVertex(): vertex_descriptor | null;
+        readonly N: number | null;
         edge(u: vertex_descriptor, v: vertex_descriptor): boolean;
         source(e: edge_descriptor): vertex_descriptor;
         target(e: edge_descriptor): vertex_descriptor;
-        outEdges(v: vertex_descriptor): out_edge_iterator;
-        outDegree(v: vertex_descriptor): number;
-        vertices(): IterableIterator<vertex_descriptor>;
-        numVertices(): number;
-        readonly directed_category: directional;
-        readonly edge_parallel_category: parallel;
-        readonly traversal_category: traversal;
+        oe(v: vertex_descriptor): out_edge_iterator;
+        od(v: vertex_descriptor): number;
+        v(): IterableIterator<vertex_descriptor>;
+        nv(): number;
         g: BaseGraph;
     }
-    export function getRenderPassTypeName(e: RenderPassType): string;
     export function getLayoutGraphValueName(e: LayoutGraphValue): string;
     export function getLayoutGraphDataValueName(e: LayoutGraphDataValue): string;
-    export function saveDescriptorDB(ar: rendering.OutputArchive, v: DescriptorDB): void;
-    export function loadDescriptorDB(ar: rendering.InputArchive, v: DescriptorDB): void;
-    export function saveRenderPhase(ar: rendering.OutputArchive, v: RenderPhase): void;
-    export function loadRenderPhase(ar: rendering.InputArchive, v: RenderPhase): void;
-    export function saveLayoutGraph(ar: rendering.OutputArchive, g: LayoutGraph): void;
-    export function loadLayoutGraph(ar: rendering.InputArchive, g: LayoutGraph): void;
-    export function saveUniformData(ar: rendering.OutputArchive, v: UniformData): void;
-    export function loadUniformData(ar: rendering.InputArchive, v: UniformData): void;
-    export function saveUniformBlockData(ar: rendering.OutputArchive, v: UniformBlockData): void;
-    export function loadUniformBlockData(ar: rendering.InputArchive, v: UniformBlockData): void;
-    export function saveDescriptorData(ar: rendering.OutputArchive, v: DescriptorData): void;
-    export function loadDescriptorData(ar: rendering.InputArchive, v: DescriptorData): void;
-    export function saveDescriptorBlockData(ar: rendering.OutputArchive, v: DescriptorBlockData): void;
-    export function loadDescriptorBlockData(ar: rendering.InputArchive, v: DescriptorBlockData): void;
-    export function saveDescriptorSetLayoutData(ar: rendering.OutputArchive, v: DescriptorSetLayoutData): void;
-    export function loadDescriptorSetLayoutData(ar: rendering.InputArchive, v: DescriptorSetLayoutData): void;
-    export function saveDescriptorSetData(ar: rendering.OutputArchive, v: DescriptorSetData): void;
-    export function loadDescriptorSetData(ar: rendering.InputArchive, v: DescriptorSetData): void;
-    export function savePipelineLayoutData(ar: rendering.OutputArchive, v: PipelineLayoutData): void;
-    export function loadPipelineLayoutData(ar: rendering.InputArchive, v: PipelineLayoutData): void;
-    export function saveShaderBindingData(ar: rendering.OutputArchive, v: ShaderBindingData): void;
-    export function loadShaderBindingData(ar: rendering.InputArchive, v: ShaderBindingData): void;
-    export function saveShaderLayoutData(ar: rendering.OutputArchive, v: ShaderLayoutData): void;
-    export function loadShaderLayoutData(ar: rendering.InputArchive, v: ShaderLayoutData): void;
-    export function saveTechniqueData(ar: rendering.OutputArchive, v: TechniqueData): void;
-    export function loadTechniqueData(ar: rendering.InputArchive, v: TechniqueData): void;
-    export function saveEffectData(ar: rendering.OutputArchive, v: EffectData): void;
-    export function loadEffectData(ar: rendering.InputArchive, v: EffectData): void;
-    export function saveShaderProgramData(ar: rendering.OutputArchive, v: ShaderProgramData): void;
-    export function loadShaderProgramData(ar: rendering.InputArchive, v: ShaderProgramData): void;
-    export function saveRenderStageData(ar: rendering.OutputArchive, v: RenderStageData): void;
-    export function loadRenderStageData(ar: rendering.InputArchive, v: RenderStageData): void;
-    export function saveRenderPhaseData(ar: rendering.OutputArchive, v: RenderPhaseData): void;
-    export function loadRenderPhaseData(ar: rendering.InputArchive, v: RenderPhaseData): void;
-    export function saveLayoutGraphData(ar: rendering.OutputArchive, g: LayoutGraphData): void;
-    export function loadLayoutGraphData(ar: rendering.InputArchive, g: LayoutGraphData): void;
+    export function saveDescriptor(a: rendering.OutputArchive, v: Descriptor): void;
+    export function loadDescriptor(a: rendering.InputArchive, v: Descriptor): void;
+    export function saveDescriptorBlock(a: rendering.OutputArchive, v: DescriptorBlock): void;
+    export function loadDescriptorBlock(a: rendering.InputArchive, v: DescriptorBlock): void;
+    export function saveDescriptorBlockFlattened(a: rendering.OutputArchive, v: DescriptorBlockFlattened): void;
+    export function loadDescriptorBlockFlattened(a: rendering.InputArchive, v: DescriptorBlockFlattened): void;
+    export function saveDescriptorBlockIndex(a: rendering.OutputArchive, v: DescriptorBlockIndex): void;
+    export function loadDescriptorBlockIndex(a: rendering.InputArchive, v: DescriptorBlockIndex): void;
+    export function saveDescriptorGroupBlockIndex(a: rendering.OutputArchive, v: DescriptorGroupBlockIndex): void;
+    export function loadDescriptorGroupBlockIndex(a: rendering.InputArchive, v: DescriptorGroupBlockIndex): void;
+    export function saveDescriptorDB(a: rendering.OutputArchive, v: DescriptorDB): void;
+    export function loadDescriptorDB(a: rendering.InputArchive, v: DescriptorDB): void;
+    export function saveRenderPhase(a: rendering.OutputArchive, v: RenderPhase): void;
+    export function loadRenderPhase(a: rendering.InputArchive, v: RenderPhase): void;
+    export function saveLayoutGraph(a: rendering.OutputArchive, g: LayoutGraph): void;
+    export function loadLayoutGraph(a: rendering.InputArchive, g: LayoutGraph): void;
+    export function saveUniformData(a: rendering.OutputArchive, v: UniformData): void;
+    export function loadUniformData(a: rendering.InputArchive, v: UniformData): void;
+    export function saveUniformBlockData(a: rendering.OutputArchive, v: UniformBlockData): void;
+    export function loadUniformBlockData(a: rendering.InputArchive, v: UniformBlockData): void;
+    export function saveDescriptorData(a: rendering.OutputArchive, v: DescriptorData): void;
+    export function loadDescriptorData(a: rendering.InputArchive, v: DescriptorData): void;
+    export function saveDescriptorBlockData(a: rendering.OutputArchive, v: DescriptorBlockData): void;
+    export function loadDescriptorBlockData(a: rendering.InputArchive, v: DescriptorBlockData): void;
+    export function saveDescriptorSetLayoutData(a: rendering.OutputArchive, v: DescriptorSetLayoutData): void;
+    export function loadDescriptorSetLayoutData(a: rendering.InputArchive, v: DescriptorSetLayoutData): void;
+    export function saveDescriptorSetData(a: rendering.OutputArchive, v: DescriptorSetData): void;
+    export function loadDescriptorSetData(a: rendering.InputArchive, v: DescriptorSetData): void;
+    export function savePipelineLayoutData(a: rendering.OutputArchive, v: PipelineLayoutData): void;
+    export function loadPipelineLayoutData(a: rendering.InputArchive, v: PipelineLayoutData): void;
+    export function saveShaderBindingData(a: rendering.OutputArchive, v: ShaderBindingData): void;
+    export function loadShaderBindingData(a: rendering.InputArchive, v: ShaderBindingData): void;
+    export function saveShaderLayoutData(a: rendering.OutputArchive, v: ShaderLayoutData): void;
+    export function loadShaderLayoutData(a: rendering.InputArchive, v: ShaderLayoutData): void;
+    export function saveTechniqueData(a: rendering.OutputArchive, v: TechniqueData): void;
+    export function loadTechniqueData(a: rendering.InputArchive, v: TechniqueData): void;
+    export function saveEffectData(a: rendering.OutputArchive, v: EffectData): void;
+    export function loadEffectData(a: rendering.InputArchive, v: EffectData): void;
+    export function saveShaderProgramData(a: rendering.OutputArchive, v: ShaderProgramData): void;
+    export function loadShaderProgramData(a: rendering.InputArchive, v: ShaderProgramData): void;
+    export function saveRenderStageData(a: rendering.OutputArchive, v: RenderStageData): void;
+    export function loadRenderStageData(a: rendering.InputArchive, v: RenderStageData): void;
+    export function saveRenderPhaseData(a: rendering.OutputArchive, v: RenderPhaseData): void;
+    export function loadRenderPhaseData(a: rendering.InputArchive, v: RenderPhaseData): void;
+    export function saveLayoutGraphData(a: rendering.OutputArchive, g: LayoutGraphData): void;
+    export function loadLayoutGraphData(a: rendering.InputArchive, g: LayoutGraphData): void;
+    export const enum LayoutType {
+        VULKAN = 0,
+        WEBGPU = 1
+    }
+    export class Layout {
+        static type: LayoutType;
+        static isWebGPU: boolean;
+    }
+    export const enum DescriptorTypeOrder {
+        UNIFORM_BUFFER = 0,
+        DYNAMIC_UNIFORM_BUFFER = 1,
+        SAMPLER_TEXTURE = 2,
+        SAMPLER = 3,
+        TEXTURE = 4,
+        STORAGE_BUFFER = 5,
+        DYNAMIC_STORAGE_BUFFER = 6,
+        STORAGE_IMAGE = 7,
+        INPUT_ATTACHMENT = 8
+    }
+    export class Descriptor {
+        constructor(type?: gfx.Type);
+        reset(type: gfx.Type): void;
+        type: gfx.Type;
+        count: number;
+    }
+    export class DescriptorBlock {
+        reset(): void;
+        readonly descriptors: Map<string, Descriptor>;
+        readonly uniformBlocks: Map<string, gfx.UniformBlock>;
+        capacity: number;
+        count: number;
+    }
+    export class DescriptorBlockFlattened {
+        reset(): void;
+        readonly descriptorNames: string[];
+        readonly uniformBlockNames: string[];
+        readonly descriptors: Descriptor[];
+        readonly uniformBlocks: gfx.UniformBlock[];
+        capacity: number;
+        count: number;
+    }
+    export class DescriptorBlockIndex {
+        constructor(updateFrequency?: rendering.UpdateFrequency, parameterType?: rendering.ParameterType, descriptorType?: DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit);
+        updateFrequency: rendering.UpdateFrequency;
+        parameterType: rendering.ParameterType;
+        descriptorType: DescriptorTypeOrder;
+        visibility: gfx.ShaderStageFlagBit;
+    }
+    export class DescriptorGroupBlockIndex {
+        constructor(updateFrequency?: rendering.UpdateFrequency, parameterType?: rendering.ParameterType, descriptorType?: DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, accessType?: gfx.MemoryAccessBit, viewDimension?: gfx.ViewDimension, sampleType?: gfx.SampleType, format?: gfx.Format);
+        updateFrequency: rendering.UpdateFrequency;
+        parameterType: rendering.ParameterType;
+        descriptorType: DescriptorTypeOrder;
+        visibility: gfx.ShaderStageFlagBit;
+        accessType: gfx.MemoryAccessBit;
+        viewDimension: gfx.ViewDimension;
+        sampleType: gfx.SampleType;
+        format: gfx.Format;
+    }
     export class DescriptorDB {
         reset(): void;
-        readonly blocks: Map<string, rendering.DescriptorBlock>;
+        readonly blocks: Map<string, DescriptorBlock>;
+        readonly groupBlocks: Map<string, DescriptorBlock>;
     }
     export class RenderPhase {
         reset(): void;
         readonly shaders: Set<string>;
     }
-    export enum RenderPassType {
+    export const enum RenderPassType {
         SINGLE_RENDER_PASS = 0,
         RENDER_PASS = 1,
         RENDER_SUBPASS = 2
@@ -353,22 +410,14 @@ declare module "cc/editor/custom-pipeline" {
         readonly id: LayoutGraphValue;
         readonly object: LayoutGraphObject;
         constructor(id: LayoutGraphValue, object: LayoutGraphObject);
-        readonly _outEdges: OutE[];
-        readonly _inEdges: OutE[];
-        readonly _id: LayoutGraphValue;
-        _object: LayoutGraphObject;
-    }
-    export class LayoutGraphNameMap implements PropertyMap {
-        readonly names: string[];
-        constructor(names: string[]);
-        get(v: number): string;
-        readonly _names: string[];
-    }
-    export class LayoutGraphDescriptorsMap implements PropertyMap {
-        readonly descriptors: DescriptorDB[];
-        constructor(descriptors: DescriptorDB[]);
-        get(v: number): DescriptorDB;
-        readonly _descriptors: DescriptorDB[];
+        /** Out edge list */
+        readonly o: OutE[];
+        /** In edge list */
+        readonly i: OutE[];
+        /** Polymorphic object Id */
+        readonly t: LayoutGraphValue;
+        /** Polymorphic object */
+        j: LayoutGraphObject;
     }
     export const enum LayoutGraphComponent {
         Name = 0,
@@ -378,76 +427,51 @@ declare module "cc/editor/custom-pipeline" {
         [LayoutGraphComponent.Name]: string;
         [LayoutGraphComponent.Descriptors]: DescriptorDB;
     }
-    export interface LayoutGraphComponentPropertyMap {
-        [LayoutGraphComponent.Name]: LayoutGraphNameMap;
-        [LayoutGraphComponent.Descriptors]: LayoutGraphDescriptorsMap;
-    }
     export class LayoutGraph implements BidirectionalGraph, AdjacencyGraph, VertexListGraph, MutableGraph, PropertyGraph, NamedGraph, ComponentGraph, PolymorphicGraph, ReferenceGraph, MutableReferenceGraph, AddressableGraph {
-        nullVertex(): number;
-        readonly directed_category: directional;
-        readonly edge_parallel_category: parallel;
-        readonly traversal_category: traversal;
+        /** null vertex descriptor */
+        readonly N = 4294967295;
         edge(u: number, v: number): boolean;
         source(e: ED): number;
         target(e: ED): number;
-        outEdges(v: number): OutEI;
-        outDegree(v: number): number;
-        inEdges(v: number): InEI;
-        inDegree(v: number): number;
-        degree(v: number): number;
-        adjacentVertices(v: number): AdjI;
-        vertices(): IterableIterator<number>;
-        numVertices(): number;
-        numEdges(): number;
+        oe(v: number): OutEI;
+        od(v: number): number;
+        ie(v: number): InEI;
+        id(v: number): number;
+        d(v: number): number;
+        adj(v: number): AdjI;
+        v(): IterableIterator<number>;
+        nv(): number;
+        ne(): number;
         clear(): void;
-        addVertex<T extends LayoutGraphValue>(id: LayoutGraphValue, object: LayoutGraphValueType[T], name: string, descriptors: DescriptorDB, u?: number): number;
-        clearVertex(v: number): void;
-        removeVertex(u: number): void;
+        addVertex<T extends LayoutGraphValue>(id: T, object: LayoutGraphValueType[T], name: string, descriptors: DescriptorDB, u?: number): number;
         addEdge(u: number, v: number): ED | null;
-        removeEdges(u: number, v: number): void;
-        removeEdge(e: ED): void;
         vertexName(v: number): string;
-        vertexNameMap(): LayoutGraphNameMap;
-        get(tag: string): LayoutGraphNameMap | LayoutGraphDescriptorsMap;
-        component<T extends LayoutGraphComponent>(id: T, v: number): LayoutGraphComponentType[T];
-        componentMap<T extends LayoutGraphComponent>(id: T): LayoutGraphComponentPropertyMap[T];
         getName(v: number): string;
         getDescriptors(v: number): DescriptorDB;
-        holds(id: LayoutGraphValue, v: number): boolean;
-        id(v: number): LayoutGraphValue;
+        h(id: LayoutGraphValue, v: number): boolean;
+        w(v: number): LayoutGraphValue;
         object(v: number): LayoutGraphObject;
         value<T extends LayoutGraphValue>(id: T, v: number): LayoutGraphValueType[T];
-        tryValue<T extends LayoutGraphValue>(id: T, v: number): LayoutGraphValueType[T] | null;
         visitVertex(visitor: LayoutGraphVisitor, v: number): unknown;
-        getRenderStage(v: number): RenderPassType;
-        getRenderPhase(v: number): RenderPhase;
-        tryGetRenderStage(v: number): RenderPassType | null;
-        tryGetRenderPhase(v: number): RenderPhase | null;
+        j<T extends LayoutGraphObject>(v: number): T;
         reference(u: number, v: number): boolean;
         parent(e: ED): number;
         child(e: ED): number;
-        parents(v: number): InEI;
         children(v: number): OutEI;
-        numParents(v: number): number;
         numChildren(v: number): number;
         getParent(v: number): number;
-        isAncestor(ancestor: number, descendent: number): boolean;
         addReference(u: number, v: number): ED | null;
-        removeReference(e: ED): void;
-        removeReferences(u: number, v: number): void;
         locateChild(u: number, name: string): number;
-        addressable(absPath: string): boolean;
         locate(absPath: string): number;
         locateRelative(path: string, start?: number): number;
         path(v: number): string;
-        readonly components: string[];
-        readonly _vertices: LayoutGraphVertex[];
+        readonly x: LayoutGraphVertex[];
         readonly _names: string[];
         readonly _descriptors: DescriptorDB[];
     }
     export class UniformData {
         constructor(uniformID?: number, uniformType?: gfx.Type, offset?: number);
-        reset(uniformID?: number, uniformType?: gfx.Type, offset?: number): void;
+        reset(uniformID: number, uniformType: gfx.Type, offset: number): void;
         uniformID: number;
         uniformType: gfx.Type;
         offset: number;
@@ -460,23 +484,27 @@ declare module "cc/editor/custom-pipeline" {
     }
     export class DescriptorData {
         constructor(descriptorID?: number, type?: gfx.Type, count?: number);
-        reset(descriptorID?: number, type?: gfx.Type, count?: number): void;
+        reset(descriptorID: number, type: gfx.Type, count: number): void;
         descriptorID: number;
         type: gfx.Type;
         count: number;
     }
     export class DescriptorBlockData {
-        constructor(type?: rendering.DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, capacity?: number);
-        reset(type?: rendering.DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, capacity?: number): void;
-        type: rendering.DescriptorTypeOrder;
+        constructor(type?: DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, capacity?: number, accessType?: gfx.MemoryAccessBit, viewDimension?: gfx.ViewDimension, sampleType?: gfx.SampleType, format?: gfx.Format);
+        reset(type: DescriptorTypeOrder, visibility: gfx.ShaderStageFlagBit, capacity: number, accessType: gfx.MemoryAccessBit, viewDimension: gfx.ViewDimension, sampleType: gfx.SampleType, format: gfx.Format): void;
+        type: DescriptorTypeOrder;
         visibility: gfx.ShaderStageFlagBit;
         offset: number;
         capacity: number;
+        accessType: gfx.MemoryAccessBit;
+        viewDimension: gfx.ViewDimension;
+        sampleType: gfx.SampleType;
+        format: gfx.Format;
         readonly descriptors: DescriptorData[];
     }
     export class DescriptorSetLayoutData {
         constructor(slot?: number, capacity?: number, descriptorBlocks?: DescriptorBlockData[], uniformBlocks?: Map<number, gfx.UniformBlock>, bindingMap?: Map<number, number>);
-        reset(slot?: number, capacity?: number): void;
+        reset(slot: number, capacity: number): void;
         slot: number;
         capacity: number;
         uniformBlockCapacity: number;
@@ -487,7 +515,7 @@ declare module "cc/editor/custom-pipeline" {
     }
     export class DescriptorSetData {
         constructor(descriptorSetLayoutData?: DescriptorSetLayoutData, descriptorSetLayout?: gfx.DescriptorSetLayout | null, descriptorSet?: gfx.DescriptorSet | null);
-        reset(descriptorSetLayout?: gfx.DescriptorSetLayout | null, descriptorSet?: gfx.DescriptorSet | null): void;
+        reset(descriptorSetLayout: gfx.DescriptorSetLayout | null, descriptorSet: gfx.DescriptorSet | null): void;
         readonly descriptorSetLayoutData: DescriptorSetLayoutData;
         readonly descriptorSetLayoutInfo: gfx.DescriptorSetLayoutInfo;
         descriptorSetLayout: gfx.DescriptorSetLayout | null;
@@ -495,7 +523,10 @@ declare module "cc/editor/custom-pipeline" {
     }
     export class PipelineLayoutData {
         reset(): void;
+        getSets(): Map<rendering.UpdateFrequency, DescriptorSetData>;
+        getSet(frequency: rendering.UpdateFrequency): DescriptorSetData | undefined;
         readonly descriptorSets: Map<rendering.UpdateFrequency, DescriptorSetData>;
+        readonly descriptorGroups: Map<rendering.UpdateFrequency, DescriptorSetData>;
     }
     export class ShaderBindingData {
         reset(): void;
@@ -547,29 +578,14 @@ declare module "cc/editor/custom-pipeline" {
         readonly id: LayoutGraphDataValue;
         readonly object: LayoutGraphDataObject;
         constructor(id: LayoutGraphDataValue, object: LayoutGraphDataObject);
-        readonly _outEdges: OutE[];
-        readonly _inEdges: OutE[];
-        readonly _id: LayoutGraphDataValue;
-        _object: LayoutGraphDataObject;
-    }
-    export class LayoutGraphDataNameMap implements PropertyMap {
-        readonly names: string[];
-        constructor(names: string[]);
-        get(v: number): string;
-        readonly _names: string[];
-    }
-    export class LayoutGraphDataUpdateMap implements PropertyMap {
-        readonly updateFrequencies: rendering.UpdateFrequency[];
-        constructor(updateFrequencies: rendering.UpdateFrequency[]);
-        get(v: number): rendering.UpdateFrequency;
-        set(v: number, updateFrequencies: rendering.UpdateFrequency): void;
-        readonly _updateFrequencies: rendering.UpdateFrequency[];
-    }
-    export class LayoutGraphDataLayoutMap implements PropertyMap {
-        readonly layouts: PipelineLayoutData[];
-        constructor(layouts: PipelineLayoutData[]);
-        get(v: number): PipelineLayoutData;
-        readonly _layouts: PipelineLayoutData[];
+        /** Out edge list */
+        readonly o: OutE[];
+        /** In edge list */
+        readonly i: OutE[];
+        /** Polymorphic object Id */
+        readonly t: LayoutGraphDataValue;
+        /** Polymorphic object */
+        j: LayoutGraphDataObject;
     }
     export const enum LayoutGraphDataComponent {
         Name = 0,
@@ -581,73 +597,47 @@ declare module "cc/editor/custom-pipeline" {
         [LayoutGraphDataComponent.Update]: rendering.UpdateFrequency;
         [LayoutGraphDataComponent.Layout]: PipelineLayoutData;
     }
-    export interface LayoutGraphDataComponentPropertyMap {
-        [LayoutGraphDataComponent.Name]: LayoutGraphDataNameMap;
-        [LayoutGraphDataComponent.Update]: LayoutGraphDataUpdateMap;
-        [LayoutGraphDataComponent.Layout]: LayoutGraphDataLayoutMap;
-    }
     export class LayoutGraphData implements BidirectionalGraph, AdjacencyGraph, VertexListGraph, MutableGraph, PropertyGraph, NamedGraph, ComponentGraph, PolymorphicGraph, ReferenceGraph, MutableReferenceGraph, AddressableGraph {
-        nullVertex(): number;
-        readonly directed_category: directional;
-        readonly edge_parallel_category: parallel;
-        readonly traversal_category: traversal;
+        /** null vertex descriptor */
+        readonly N = 4294967295;
         edge(u: number, v: number): boolean;
         source(e: ED): number;
         target(e: ED): number;
-        outEdges(v: number): OutEI;
-        outDegree(v: number): number;
-        inEdges(v: number): InEI;
-        inDegree(v: number): number;
-        degree(v: number): number;
-        adjacentVertices(v: number): AdjI;
-        vertices(): IterableIterator<number>;
-        numVertices(): number;
-        numEdges(): number;
+        oe(v: number): OutEI;
+        od(v: number): number;
+        ie(v: number): InEI;
+        id(v: number): number;
+        d(v: number): number;
+        adj(v: number): AdjI;
+        v(): IterableIterator<number>;
+        nv(): number;
+        ne(): number;
         clear(): void;
-        addVertex<T extends LayoutGraphDataValue>(id: LayoutGraphDataValue, object: LayoutGraphDataValueType[T], name: string, update: rendering.UpdateFrequency, layout: PipelineLayoutData, u?: number): number;
-        clearVertex(v: number): void;
-        removeVertex(u: number): void;
+        addVertex<T extends LayoutGraphDataValue>(id: T, object: LayoutGraphDataValueType[T], name: string, update: rendering.UpdateFrequency, layout: PipelineLayoutData, u?: number): number;
         addEdge(u: number, v: number): ED | null;
-        removeEdges(u: number, v: number): void;
-        removeEdge(e: ED): void;
         vertexName(v: number): string;
-        vertexNameMap(): LayoutGraphDataNameMap;
-        get(tag: string): LayoutGraphDataNameMap | LayoutGraphDataUpdateMap | LayoutGraphDataLayoutMap;
-        component<T extends LayoutGraphDataComponent>(id: T, v: number): LayoutGraphDataComponentType[T];
-        componentMap<T extends LayoutGraphDataComponent>(id: T): LayoutGraphDataComponentPropertyMap[T];
         getName(v: number): string;
         getUpdate(v: number): rendering.UpdateFrequency;
         setUpdate(v: number, value: rendering.UpdateFrequency): void;
         getLayout(v: number): PipelineLayoutData;
-        holds(id: LayoutGraphDataValue, v: number): boolean;
-        id(v: number): LayoutGraphDataValue;
+        h(id: LayoutGraphDataValue, v: number): boolean;
+        w(v: number): LayoutGraphDataValue;
         object(v: number): LayoutGraphDataObject;
         value<T extends LayoutGraphDataValue>(id: T, v: number): LayoutGraphDataValueType[T];
-        tryValue<T extends LayoutGraphDataValue>(id: T, v: number): LayoutGraphDataValueType[T] | null;
         visitVertex(visitor: LayoutGraphDataVisitor, v: number): unknown;
-        getRenderStage(v: number): RenderStageData;
-        getRenderPhase(v: number): RenderPhaseData;
-        tryGetRenderStage(v: number): RenderStageData | null;
-        tryGetRenderPhase(v: number): RenderPhaseData | null;
+        j<T extends LayoutGraphDataObject>(v: number): T;
         reference(u: number, v: number): boolean;
         parent(e: ED): number;
         child(e: ED): number;
-        parents(v: number): InEI;
         children(v: number): OutEI;
-        numParents(v: number): number;
         numChildren(v: number): number;
         getParent(v: number): number;
-        isAncestor(ancestor: number, descendent: number): boolean;
         addReference(u: number, v: number): ED | null;
-        removeReference(e: ED): void;
-        removeReferences(u: number, v: number): void;
         locateChild(u: number, name: string): number;
-        addressable(absPath: string): boolean;
         locate(absPath: string): number;
         locateRelative(path: string, start?: number): number;
         path(v: number): string;
-        readonly components: string[];
-        readonly _vertices: LayoutGraphDataVertex[];
+        readonly x: LayoutGraphDataVertex[];
         readonly _names: string[];
         readonly _updateFrequencies: rendering.UpdateFrequency[];
         readonly _layouts: PipelineLayoutData[];
@@ -658,37 +648,22 @@ declare module "cc/editor/custom-pipeline" {
         readonly effects: Map<string, EffectData>;
         constantMacros: string;
     }
-    export class LayoutGraphObjectPoolSettings {
-        constructor(batchSize: number);
-        descriptorDBBatchSize: number;
-        renderPhaseBatchSize: number;
-        layoutGraphBatchSize: number;
-        uniformDataBatchSize: number;
-        uniformBlockDataBatchSize: number;
-        descriptorDataBatchSize: number;
-        descriptorBlockDataBatchSize: number;
-        descriptorSetLayoutDataBatchSize: number;
-        descriptorSetDataBatchSize: number;
-        pipelineLayoutDataBatchSize: number;
-        shaderBindingDataBatchSize: number;
-        shaderLayoutDataBatchSize: number;
-        techniqueDataBatchSize: number;
-        effectDataBatchSize: number;
-        shaderProgramDataBatchSize: number;
-        renderStageDataBatchSize: number;
-        renderPhaseDataBatchSize: number;
-        layoutGraphDataBatchSize: number;
-    }
     export class LayoutGraphObjectPool {
-        constructor(settings: LayoutGraphObjectPoolSettings, renderCommon: rendering.RenderCommonObjectPool);
+        constructor(renderCommon: rendering.RenderCommonObjectPool);
         reset(): void;
+        createLayout(): Layout;
+        createDescriptor(type?: gfx.Type): Descriptor;
+        createDescriptorBlock(): DescriptorBlock;
+        createDescriptorBlockFlattened(): DescriptorBlockFlattened;
+        createDescriptorBlockIndex(updateFrequency?: rendering.UpdateFrequency, parameterType?: rendering.ParameterType, descriptorType?: DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit): DescriptorBlockIndex;
+        createDescriptorGroupBlockIndex(updateFrequency?: rendering.UpdateFrequency, parameterType?: rendering.ParameterType, descriptorType?: DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, accessType?: gfx.MemoryAccessBit, viewDimension?: gfx.ViewDimension, sampleType?: gfx.SampleType, format?: gfx.Format): DescriptorGroupBlockIndex;
         createDescriptorDB(): DescriptorDB;
         createRenderPhase(): RenderPhase;
         createLayoutGraph(): LayoutGraph;
         createUniformData(uniformID?: number, uniformType?: gfx.Type, offset?: number): UniformData;
         createUniformBlockData(): UniformBlockData;
         createDescriptorData(descriptorID?: number, type?: gfx.Type, count?: number): DescriptorData;
-        createDescriptorBlockData(type?: rendering.DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, capacity?: number): DescriptorBlockData;
+        createDescriptorBlockData(type?: DescriptorTypeOrder, visibility?: gfx.ShaderStageFlagBit, capacity?: number, accessType?: gfx.MemoryAccessBit, viewDimension?: gfx.ViewDimension, sampleType?: gfx.SampleType, format?: gfx.Format): DescriptorBlockData;
         createDescriptorSetLayoutData(slot?: number, capacity?: number): DescriptorSetLayoutData;
         createDescriptorSetData(descriptorSetLayout?: gfx.DescriptorSetLayout | null, descriptorSet?: gfx.DescriptorSet | null): DescriptorSetData;
         createPipelineLayoutData(): PipelineLayoutData;
@@ -702,17 +677,28 @@ declare module "cc/editor/custom-pipeline" {
         createLayoutGraphData(): LayoutGraphData;
         readonly renderCommon: rendering.RenderCommonObjectPool;
     }
-    export function getGfxDescriptorType(type: rendering.DescriptorTypeOrder): gfx.DescriptorType;
-    export function getDescriptorTypeOrder(type: gfx.DescriptorType): rendering.DescriptorTypeOrder;
+    export function getGfxDescriptorType(type: DescriptorTypeOrder): gfx.DescriptorType;
+    export function getDescriptorTypeOrder(type: gfx.DescriptorType): DescriptorTypeOrder;
     export function getCustomPassID(lg: LayoutGraphData, name: string | undefined): number;
     export function getCustomSubpassID(lg: LayoutGraphData, passID: number, name: string): number;
     export function getCustomPhaseID(lg: LayoutGraphData, subpassOrPassID: number, name: string | number | undefined): number;
     export function getUniformBlockSize(blockMembers: Array<gfx.Uniform>): number;
+    export function sortDescriptorBlocks<T>(lhs: [
+        string,
+        T
+    ], rhs: [
+        string,
+        T
+    ]): number;
+    export function sortDescriptorGroupBlocks<T>(lhs: [
+        string,
+        T
+    ], rhs: [
+        string,
+        T
+    ]): number;
     export function getOrCreateDescriptorID(lg: LayoutGraphData, name: string): number;
-    export function getOrCreateConstantID(lg: LayoutGraphData, name: string): number;
-    export function buildLayoutGraphData(lg: LayoutGraph, lgData: LayoutGraphData): void;
     export function createGfxDescriptorSetsAndPipelines(device: gfx.Device | null, g: LayoutGraphData): void;
-    export function printLayoutGraphData(g: LayoutGraphData): string;
     export function makeDescriptorSetLayoutData(lg: LayoutGraphData, rate: rendering.UpdateFrequency, set: number, descriptors: EffectAsset.IDescriptorInfo): DescriptorSetLayoutData;
     export function initializeDescriptorSetLayoutInfo(layoutData: DescriptorSetLayoutData, info: gfx.DescriptorSetLayoutInfo): void;
     export function populatePipelineLayoutInfo(layout: PipelineLayoutData, rate: rendering.UpdateFrequency, info: gfx.PipelineLayoutInfo): void;
@@ -723,17 +709,22 @@ declare module "cc/editor/custom-pipeline" {
     export function getEmptyPipelineLayout(): gfx.PipelineLayout;
     export function getOrCreateDescriptorSetLayout(lg: LayoutGraphData, subpassOrPassID: number, phaseID: number, rate: rendering.UpdateFrequency): gfx.DescriptorSetLayout;
     export function getDescriptorSetLayout(lg: LayoutGraphData, subpassOrPassID: number, phaseID: number, rate: rendering.UpdateFrequency): gfx.DescriptorSetLayout | null;
-    export function getOrCreateDescriptorBlockData(data: DescriptorSetLayoutData, type: gfx.DescriptorType, vis: gfx.ShaderStageFlagBit): DescriptorBlockData;
     export function getProgramID(lg: LayoutGraphData, phaseID: number, programName: string): number;
     export function getDescriptorNameID(lg: LayoutGraphData, name: string): number;
     export function getDescriptorName(lg: LayoutGraphData, nameID: number): string;
     export function getPerPassDescriptorSetLayoutData(lg: LayoutGraphData, subpassOrPassID: number): DescriptorSetLayoutData | null;
     export function getPerPhaseDescriptorSetLayoutData(lg: LayoutGraphData, phaseID: number): DescriptorSetLayoutData | null;
-    export function getPerBatchDescriptorSetLayoutData(lg: LayoutGraphData, phaseID: number, programID: any): DescriptorSetLayoutData | null;
-    export function getPerInstanceDescriptorSetLayoutData(lg: LayoutGraphData, phaseID: number, programID: any): DescriptorSetLayoutData | null;
+    export function getPerBatchDescriptorSetLayoutData(lg: LayoutGraphData, phaseID: number, programID: number): DescriptorSetLayoutData | null;
+    export function getPerInstanceDescriptorSetLayoutData(lg: LayoutGraphData, phaseID: number, programID: number): DescriptorSetLayoutData | null;
     export function getBinding(layout: DescriptorSetLayoutData, nameID: number): number;
     export const INVALID_ID = 4294967295;
     export const ENABLE_SUBPASS = true;
+    export const DEFAULT_UNIFORM_COUNTS: Map<string, number>;
+    export const DYNAMIC_UNIFORM_BLOCK: Set<string>;
+    export function getLayoutGraphDataVersion(): number;
+    export function getOrCreateConstantID(lg: LayoutGraphData, name: string): number;
+    export function buildLayoutGraphData(lg: LayoutGraph, lgData: LayoutGraphData): void;
+    export function printLayoutGraphData(g: LayoutGraphData): string;
     export class PrintVisitor extends DefaultVisitor {
         discoverVertex(u: number, g: LayoutGraphData): void;
         finishVertex(v: number, g: LayoutGraphData): void;
@@ -741,10 +732,10 @@ declare module "cc/editor/custom-pipeline" {
         oss: string;
     }
     export class VisibilityIndex {
-        constructor(updateFrequency?: rendering.UpdateFrequency, parameterType?: rendering.ParameterType, descriptorType?: rendering.DescriptorTypeOrder);
+        constructor(updateFrequency?: rendering.UpdateFrequency, parameterType?: rendering.ParameterType, descriptorType?: DescriptorTypeOrder);
         updateFrequency: rendering.UpdateFrequency;
         parameterType: rendering.ParameterType;
-        descriptorType: rendering.DescriptorTypeOrder;
+        descriptorType: DescriptorTypeOrder;
     }
     export class VisibilityBlock {
         mergeVisibility(name: string, vis: gfx.ShaderStageFlagBit): void;
@@ -759,8 +750,6 @@ declare module "cc/editor/custom-pipeline" {
         getPhase(phaseName: string): VisibilityDB;
         phases: Map<string, VisibilityDB>;
     }
-    export const DEFAULT_UNIFORM_COUNTS: Map<string, number>;
-    export const DYNAMIC_UNIFORM_BLOCK: Set<string>;
     export class VisibilityGraph {
         getPass(passName: string): VisibilityPass;
         mergeEffect(asset: EffectAsset): void;
@@ -777,9 +766,9 @@ declare module "cc/editor/custom-pipeline" {
     }
     export class BinaryOutputArchive implements rendering.OutputArchive {
         constructor();
-        writeBool(value: boolean): void;
-        writeNumber(value: number): void;
-        writeString(value: string): void;
+        b(value: boolean): void;
+        n(value: number): void;
+        s(value: string): void;
         reserve(requiredSize: number): void;
         get data(): ArrayBuffer;
         capacity: number;
@@ -788,34 +777,15 @@ declare module "cc/editor/custom-pipeline" {
         dataView: DataView;
     }
     export class BinaryInputArchive implements rendering.InputArchive {
-        constructor(data: ArrayBuffer);
-        readBool(): boolean;
-        readNumber(): number;
-        readString(): string;
+        constructor(data: ArrayBuffer, byteOffset?: number);
+        b(): boolean;
+        n(): number;
+        s(): string;
         offset: number;
         dataView: DataView;
     }
-    export import getUpdateFrequencyName = rendering.getUpdateFrequencyName;
-    export import getParameterTypeName = rendering.getParameterTypeName;
-    export import getResourceResidencyName = rendering.getResourceResidencyName;
-    export import getQueueHintName = rendering.getQueueHintName;
-    export import getResourceDimensionName = rendering.getResourceDimensionName;
-    export import getTaskTypeName = rendering.getTaskTypeName;
-    export import getLightingModeName = rendering.getLightingModeName;
-    export import getAttachmentTypeName = rendering.getAttachmentTypeName;
-    export import getAccessTypeName = rendering.getAccessTypeName;
-    export import getClearValueTypeName = rendering.getClearValueTypeName;
-    export import getDescriptorTypeOrderName = rendering.getDescriptorTypeOrderName;
     export import saveLightInfo = rendering.saveLightInfo;
     export import loadLightInfo = rendering.loadLightInfo;
-    export import saveDescriptor = rendering.saveDescriptor;
-    export import loadDescriptor = rendering.loadDescriptor;
-    export import saveDescriptorBlock = rendering.saveDescriptorBlock;
-    export import loadDescriptorBlock = rendering.loadDescriptorBlock;
-    export import saveDescriptorBlockFlattened = rendering.saveDescriptorBlockFlattened;
-    export import loadDescriptorBlockFlattened = rendering.loadDescriptorBlockFlattened;
-    export import saveDescriptorBlockIndex = rendering.saveDescriptorBlockIndex;
-    export import loadDescriptorBlockIndex = rendering.loadDescriptorBlockIndex;
     export import saveResolvePair = rendering.saveResolvePair;
     export import loadResolvePair = rendering.loadResolvePair;
     export import saveCopyPair = rendering.saveCopyPair;
@@ -837,18 +807,12 @@ declare module "cc/editor/custom-pipeline" {
     export import AccessType = rendering.AccessType;
     export import ClearValueType = rendering.ClearValueType;
     export import LightInfo = rendering.LightInfo;
-    export import DescriptorTypeOrder = rendering.DescriptorTypeOrder;
-    export import Descriptor = rendering.Descriptor;
-    export import DescriptorBlock = rendering.DescriptorBlock;
-    export import DescriptorBlockFlattened = rendering.DescriptorBlockFlattened;
-    export import DescriptorBlockIndex = rendering.DescriptorBlockIndex;
     export import ResolveFlags = rendering.ResolveFlags;
     export import ResolvePair = rendering.ResolvePair;
     export import CopyPair = rendering.CopyPair;
     export import UploadPair = rendering.UploadPair;
     export import MovePair = rendering.MovePair;
     export import PipelineStatistics = rendering.PipelineStatistics;
-    export import RenderCommonObjectPoolSettings = rendering.RenderCommonObjectPoolSettings;
     export import RenderCommonObjectPool = rendering.RenderCommonObjectPool;
     export import OutputArchive = rendering.OutputArchive;
     export import InputArchive = rendering.InputArchive;
@@ -1088,7 +1052,7 @@ declare module "cc/editor/material" {
         stage: pipeline.RenderPassStage;
         rasterizerState: RasterizerStateEditor;
         depthStencilState: DepthStencilStateEditor;
-        blendState: BlendStateEditor;
+        blendState: any;
         dynamics: never[];
         customizations: never[];
         phase: string;
@@ -1590,7 +1554,7 @@ declare module "cc/editor/new-gen-anim" {
      * @param constructor @zh 该绑定类的构造函数。@en The binding class's constructor.
      * @returns @zh 类型信息。@en Type info.
      */
-    export function getTCBindingTypeInfo(constructor: ___private._types_globals__Constructor<TCBinding<number>>): Readonly<TCBindingTypeInfo> | undefined;
+    export function getTCBindingTypeInfo(constructor: ___private.__types_globals__Constructor<TCBinding<number>>): Readonly<TCBindingTypeInfo> | undefined;
     export enum TCBindingTransitionSourceFilter {
         /** Motion states. */
         MOTION = 1,
@@ -2430,7 +2394,7 @@ declare module "cc/editor/new-gen-anim" {
             duration: number;
             copyTo(that: _cocos_animation_marionette_animation_graph__ProceduralPoseTransition): void;
         }
-        export type _cocos_animation_marionette_state_machine_state__StateMachineComponentConstructor<T extends animation.StateMachineComponent> = ___private._types_globals__Constructor<T>;
+        export type _cocos_animation_marionette_state_machine_state__StateMachineComponentConstructor<T extends animation.StateMachineComponent> = ___private.__types_globals__Constructor<T>;
         export class _cocos_animation_marionette_state_machine_state__InteractiveState extends State {
             get components(): Iterable<animation.StateMachineComponent>;
             addComponent<T extends animation.StateMachineComponent>(constructor: _cocos_animation_marionette_state_machine_state__StateMachineComponentConstructor<T>): T;
@@ -3084,48 +3048,45 @@ declare module "cc/editor/particle-system-2d-utils" {
     /**
      * A png file reader
      * @name PNGReader
+     * @mangle
      */
     export class PNGReader {
-        constructor(data: any);
-        read(bytes: any): any[];
+        constructor(data: number[]);
+        read(bytes: number): number[];
         readUInt32(): number;
         readUInt16(): number;
-        decodePixels(data: any): Uint8Array;
-        copyToImageData(imageData: any, pixels: any): void;
+        decodePixels(data: Uint8Array | number[] | null): Uint8Array;
+        copyToImageData(imageData: ImageData, pixels: Uint8Array): void;
         decodePalette(): Uint8Array;
-        render(canvas: any): any;
+        render(canvas: HTMLCanvasElement): void;
     }
     /**
      * cc.tiffReader is a singleton object, it's a tiff file reader, it can parse byte array to draw into a canvas
      * @class
      * @name tiffReader
+     * @mangle
      */
     export class TiffReader {
         constructor();
-        getUint8(offset: any): any;
-        getUint16(offset: any): number;
-        getUint32(offset: any): number;
+        getUint8(offset: number): number;
+        getUint16(offset: number): number;
+        getUint32(offset: number): number;
         checkLittleEndian(): boolean;
         hasTowel(): boolean;
-        getFieldTypeName(fieldType: any): any;
-        getFieldTagName(fieldTag: any): any;
-        getFieldTypeLength(fieldTypeName: any): number;
-        getFieldValues(fieldTagName: any, fieldTypeName: any, typeCount: any, valueOffset: any): any[];
-        getBytes(numBytes: any, offset: any): any;
-        getBits(numBits: any, byteOffset: any, bitOffset: any): {
+        getFieldTypeName(fieldType: ___private._cocos_particle_2d_tiff_reader__FieldTypeNamesKey): ___private._cocos_particle_2d_tiff_reader__FieldTypeNamesValue | null;
+        getFieldTagName(fieldTag: ___private._cocos_particle_2d_tiff_reader__FieldTagNamesKey): ___private._cocos_particle_2d_tiff_reader__FieldTagNamesValue;
+        getFieldTypeLength(fieldTypeName: ___private._cocos_particle_2d_tiff_reader__FieldTypeNamesValue): number;
+        getFieldValues(fieldTagName: ___private._cocos_particle_2d_tiff_reader__FieldTagNamesValue, fieldTypeName: ___private._cocos_particle_2d_tiff_reader__FieldTypeNamesValue, typeCount: number, valueOffset: number): string[] | number[];
+        getBytes(numBytes: number, offset: number): number;
+        getBits(numBits: number, byteOffset: number, bitOffset: number): {
             bits: number;
-            byteOffset: any;
+            byteOffset: number;
             bitOffset: number;
         };
-        parseFileDirectory(offset: any): void;
-        clampColorSample(colorSample: any, bitsPerSample: any): number;
-        /**
-         * @function
-         * @param {Array} tiffData
-         * @param {HTMLCanvasElement} canvas
-         * @returns {*}
-         */
-        parseTIFF(tiffData: any, canvas: any): any;
+        parseFileDirectory(offset: number): void;
+        clampColorSample(colorSample: number, bitsPerSample: number): number;
+        reset(): void;
+        parseTIFF(tiffData: number[], canvas: HTMLCanvasElement): void;
     }
     export function getImageFormatByData(imgData: any): ImageFormat;
     /**
@@ -3189,6 +3150,7 @@ declare module "cc/editor/particle-system-2d-utils" {
          */
         UNKNOWN = 10
     }
+    import { __private as ___private } from "cc";
     export {};
 }
 declare module "cc/editor/populate-internal-constants" {
@@ -3237,10 +3199,6 @@ declare module "cc/editor/populate-internal-constants" {
      */
     export const WECHAT_MINI_PROGRAM: boolean;
     /**
-     * Running in the baidu's mini game.
-     */
-    export const BAIDU: boolean;
-    /**
      * Running in the xiaomi's quick game.
      */
     export const XIAOMI: boolean;
@@ -3273,17 +3231,17 @@ declare module "cc/editor/populate-internal-constants" {
      */
     export const HUAWEI: boolean;
     /**
-     * Running in the cocosplay.
+     * Running in the migu's quick game.
      */
-    export const COCOSPLAY: boolean;
+    export const MIGU: boolean;
     /**
-     * Running in the qtt's quick game.
+     * Running in the honor's quick game.
      */
-    export const QTT: boolean;
+    export const HONOR: boolean;
     /**
-     * Running in the linksure's quick game.
+     * Running in the cocos runtime.
      */
-    export const LINKSURE: boolean;
+    export const COCOS_RUNTIME: boolean;
     /**
      * Running in the editor.
      */
@@ -3348,28 +3306,9 @@ declare module "cc/editor/populate-internal-constants" {
      */
     export const WEBGPU: boolean;
     /**
-     * Whether support wasm, here we provide 3 options:
-     * 0: The platform doesn't support WASM
-     * 1: The platform supports WASM
-     * 2: The platform may support WASM, especially on Web platform
+     * Native code (wasm/asmjs) bundle mode, 0: asmjs, 1: wasm, 2: both
      */
-    export const WASM_SUPPORT_MODE: number;
-    /**
-     * Whether force banning using bullet wasm and use asmjs instead.
-     * This is an internal constant to be compatible with the editor's physical build option.
-     */
-    export const FORCE_BANNING_BULLET_WASM: boolean;
-    /**
-     * Whether cull the asm js module.
-     * The external modules ending with '.asm.js'. or '.js.mem' is culled if this constant is true.
-     */
-    export const CULL_ASM_JS_MODULE: boolean;
-    /**
-     * An internal constant to indicate whether need a fallback of wasm.
-     * If true, we build a wasm fallback module for the compatibility of wasm files compiled by different version of emscripten.
-     * This is useful when we use wasm on different version of Safari browsers.
-     */
-    export const WASM_FALLBACK: boolean;
+    export const NATIVE_CODE_BUNDLE_MODE: number;
     /**
      * An internal constant to indicate whether we use wasm assets as minigame subpackage.
      * This is useful when we need to reduce code size.
@@ -3379,6 +3318,38 @@ declare module "cc/editor/populate-internal-constants" {
      * An internal constant to indicate whether we cull the meshopt wasm module and asm.js module.
      */
     export const CULL_MESHOPT: boolean;
+    /**
+     * An internal constant to indicate whether we need to load spine wasm/asmjs module manually.
+     */
+    export const LOAD_SPINE_MANUALLY: boolean;
+    /**
+     * An internal constant to indicate whether we need to load box2d wasm/asmjs module manually.
+     */
+    export const LOAD_BOX2D_MANUALLY: boolean;
+    /**
+     * An internal constant to indicate whether we need to load bullet wasm/asmjs module manually.
+     */
+    export const LOAD_BULLET_MANUALLY: boolean;
+    /**
+     * An internal constant to indicate whether we need to load physx wasm/asmjs module manually.
+     */
+    export const LOAD_PHYSX_MANUALLY: boolean;
+    /**
+     * An internal constant to indicate whether we're using 3d module.
+     */
+    export const USE_3D: boolean;
+    /**
+     * An internal constant to indicate whether we're using ui-skew module.
+     */
+    export const USE_UI_SKEW: boolean;
+    /**
+     * An internal constant to indicate whether we're using xr module.
+     */
+    export const USE_XR: boolean;
+    /**
+     * An internal constant to indicate whether we're using sorting-2d module.
+     */
+    export const USE_SORTING_2D: boolean;
     export {};
 }
 declare module "cc/editor/reflection-probe" {
@@ -3391,19 +3362,15 @@ declare module "cc/editor/serialization" {
         get document(): unknown;
         get chunks(): Uint8Array[];
     }
-    export function encodeCCONJson(ccon: CCON, chunkURLs: string[]): unknown;
     export function encodeCCONBinary(ccon: CCON): Uint8Array;
     export class BufferBuilder {
+        constructor();
         get byteLength(): number;
         alignAs(align: number): number;
         append(view: ArrayBufferView): number;
         get(): Uint8Array;
     }
     export function decodeCCONBinary(bytes: Uint8Array): CCON;
-    export function parseCCONJson(json: unknown): {
-        chunks: string[];
-        document: unknown;
-    };
     export function serializeBuiltinValueType(obj: ValueType): ___private._cocos_serialization_compiled_builtin_value_type__ValueTypeData | null;
     import { ValueType, __private as ___private } from "cc";
     export {};

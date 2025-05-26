@@ -141,71 +141,97 @@ declare interface I18NWellDefinedDictionary {
     ['asset-db.preferences.log_level_log']: [];
     ['asset-db.preferences.log_level_warn']: [];
     ['asset-db.preferences.log_level_error']: [];
-    ['asset-db.importers.glTF.glTF_asset_group_mesh']: [];
-    ['asset-db.importers.glTF.glTF_asset_group_animation']: [];
-    ['asset-db.importers.glTF.glTF_asset_group_node']: [];
-    ['asset-db.importers.glTF.glTF_asset_group_skin']: [];
-    ['asset-db.importers.glTF.glTF_asset_group_sampler']: [];
-    ['asset-db.importers.glTF.glTF_asset']: [{
-        group: any;
-        index: any;
-        name: any;
-    }];
-    ['asset-db.importers.glTF.glTF_asset_no_name']: [{
-        group: any;
-        index: any;
-    }];
-    ['asset-db.importers.glTF.unsupported_alpha_mode']: [{
-        material: any;
-        mode: any;
-    }];
-    ['asset-db.importers.glTF.unsupported_texture_parameter']: [{
-        texture: any;
-        sampler: any;
-        type: any;
-        value: any;
-    }];
-    ['asset-db.importers.glTF.texture_parameter_min_filter']: [];
-    ['asset-db.importers.glTF.texture_parameter_mag_filter']: [];
-    ['asset-db.importers.glTF.unsupported_channel_path']: [{
-        animation: any;
-        channel: any;
-        path: any;
-    }];
-    ['asset-db.importers.glTF.reference_skin_in_different_scene']: [{
-        node: any;
-        skin: any;
-    }];
-    ['asset-db.importers.glTF.disallow_cubic_spline_channel_split']: [{
-        animation: any;
-        channel: any;
-    }];
-    ['asset-db.importers.glTF.failed_to_calculate_tangents_due_to_lack_of_normals']: [{
-        mesh: any;
-        primitive: any;
-    }];
-    ['asset-db.importers.glTF.failed_to_calculate_tangents_due_to_lack_of_uvs']: [{
-        mesh: any;
-        primitive: any;
-    }];
-    ['asset-db.importers.glTF.failed_to_load_image']: [{
-        url: any;
-        reason: any;
-    }];
-    ['asset-db.importers.glTF.image_uri_should_be_file_url']: [];
-    ['asset-db.importers.glTF.failed_to_convert_tga']: [];
-    ['asset-db.importers.fbx.failed_to_convert_fbx_file']: [{
-        path: any;
-    }];
-    ['asset-db.importers.fbx.no_available_fbx_temp_dir']: [];
-    ['asset-db.importers.fbx.fbx2glTF_exists_with_non_zero_code']: [{
-        code: any;
-        output: any;
-    }];
-    ['asset-db.importers.javascript.transform_failure']: [{
-        path: any;
-        reason: any;
-    }];
+    ['engine-extends.importers.glTF.glTF_asset_group_mesh']: [];
+    ['engine-extends.importers.glTF.glTF_asset_group_animation']: [];
+    ['engine-extends.importers.glTF.glTF_asset_group_node']: [];
+    ['engine-extends.importers.glTF.glTF_asset_group_skin']: [];
+    ['engine-extends.importers.glTF.glTF_asset_group_sampler']: [];
+    ['engine-extends.importers.glTF.glTF_asset']: [
+        {
+            group: any;
+            index: any;
+            name: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.glTF_asset_no_name']: [
+        {
+            group: any;
+            index: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.unsupported_alpha_mode']: [
+        {
+            material: any;
+            mode: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.unsupported_texture_parameter']: [
+        {
+            texture: any;
+            sampler: any;
+            type: any;
+            value: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.texture_parameter_min_filter']: [];
+    ['engine-extends.importers.glTF.texture_parameter_mag_filter']: [];
+    ['engine-extends.importers.glTF.unsupported_channel_path']: [
+        {
+            animation: any;
+            channel: any;
+            path: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.reference_skin_in_different_scene']: [
+        {
+            node: any;
+            skin: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.disallow_cubic_spline_channel_split']: [
+        {
+            animation: any;
+            channel: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.failed_to_calculate_tangents_due_to_lack_of_normals']: [
+        {
+            mesh: any;
+            primitive: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.failed_to_calculate_tangents_due_to_lack_of_uvs']: [
+        {
+            mesh: any;
+            primitive: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.failed_to_load_image']: [
+        {
+            url: any;
+            reason: any;
+        },
+    ];
+    ['engine-extends.importers.glTF.image_uri_should_be_file_url']: [];
+    ['engine-extends.importers.glTF.failed_to_convert_tga']: [];
+    ['engine-extends.importers.fbx.failed_to_convert_fbx_file']: [
+        {
+            path: any;
+        },
+    ];
+    ['engine-extends.importers.fbx.no_available_fbx_temp_dir']: [];
+    ['engine-extends.importers.fbx.fbx2glTF_exists_with_non_zero_code']: [
+        {
+            code: any;
+            output: any;
+        },
+    ];
+    ['engine-extends.importers.javascript.transform_failure']: [
+        {
+            path: any;
+            reason: any;
+        },
+    ];
     ['assets.title']: [];
     ['assets.previewTitle']: [];
     ['assets.menu.createMenu']: [];
@@ -263,10 +289,12 @@ declare interface I18NWellDefinedDictionary {
     ['assets.operate.dialogInfo']: [];
     ['assets.operate.refreshing']: [];
     ['assets.operate.assetDataError']: [];
-    ['assets.operate.sureDelete']: [{
-        length: any;
-        filelist: any;
-    }];
+    ['assets.operate.sureDelete']: [
+        {
+            length: any;
+            filelist: any;
+        },
+    ];
     ['assets.operate.renameFail']: [];
     ['assets.operate.pasteFail_parent_into_child']: [];
     ['assets.operate.refreshFail']: [];
@@ -387,12 +415,16 @@ declare interface I18NWellDefinedDictionary {
     ['builder.huawei.use_native_renderer']: [];
     ['builder.wechat_game.separate_engine']: [];
     ['builder.wechat_game.separate_engine_tips']: [];
-    ['builder.wechat_game.client_path_error']: [{
-        path: any;
-    }];
-    ['builder.wechat_game.client_info_path_err']: [{
-        path: any;
-    }];
+    ['builder.wechat_game.client_path_error']: [
+        {
+            path: any;
+        },
+    ];
+    ['builder.wechat_game.client_info_path_err']: [
+        {
+            path: any;
+        },
+    ];
     ['builder.wechat_game.client_version_low']: [];
     ['builder.wechat_game.remote_server_address']: [];
     ['builder.wechat_game.remote_server_address_tips']: [];
@@ -403,9 +435,11 @@ declare interface I18NWellDefinedDictionary {
     ['builder.wechat_game.wechatgame_app_path_empty']: [];
     ['builder.error.build_error']: [];
     ['builder.error.dirty_info']: [];
-    ['builder.error.build_dir_not_exists']: [{
-        buildDir: any;
-    }];
+    ['builder.error.build_dir_not_exists']: [
+        {
+            buildDir: any;
+        },
+    ];
     ['builder.error.build_path_contains_space']: [];
     ['builder.error.build_path_contains_chinese']: [];
     ['builder.error.can_not_empty']: [];
@@ -415,18 +449,24 @@ declare interface I18NWellDefinedDictionary {
     ['builder.error.select_scenes_to_build']: [];
     ['builder.error.binary_api_level']: [];
     ['builder.error.path_too_long_title']: [];
-    ['builder.error.path_too_long_desc']: [{
-        max_length: any;
-    }];
-    ['builder.error.keep_raw_texture_of_atlas']: [{
-        texturePath: any;
-        pacPath: any;
-        assetPath: any;
-    }];
-    ['builder.error.arm64_not_support']: [{
-        current_api: any;
-        min_version: any;
-    }];
+    ['builder.error.path_too_long_desc']: [
+        {
+            max_length: any;
+        },
+    ];
+    ['builder.error.keep_raw_texture_of_atlas']: [
+        {
+            texturePath: any;
+            pacPath: any;
+            assetPath: any;
+        },
+    ];
+    ['builder.error.arm64_not_support']: [
+        {
+            current_api: any;
+            min_version: any;
+        },
+    ];
     ['builder.warn.same_url']: [];
     ['builder.tasks.build_asset']: [];
     ['builder.tasks.build_engine']: [];

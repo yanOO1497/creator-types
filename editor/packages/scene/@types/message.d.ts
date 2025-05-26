@@ -11,7 +11,8 @@ import {
     CreateComponentOptions,
     INode,
     IComponent,
-    QueryClassesOptions
+    QueryClassesOptions,
+    ExecuteSceneScriptMethodOptions,
 } from './public';
 export interface queryIsNative {
     /**
@@ -26,19 +27,17 @@ export interface message extends EditorMessageMap {
         params: [
             string
         ],
-        result: boolean,
+        result: void,
     },
     'save-scene': {
         params: [] | [
             boolean
         ],
-        result: boolean,
+        result: string | undefined,
     },
     'save-as-scene': {
-        params: [
-            boolean
-        ],
-        result: boolean,
+        params: [],
+        result: string | undefined,
     },
     'close-scene': {
         params: [],
@@ -61,13 +60,13 @@ export interface message extends EditorMessageMap {
         params: [
             MoveArrayOptions,
         ],
-        result: void,
+        result: boolean,
     },
     'remove-array-element': {
         params: [
             RemoveArrayOptions,
         ],
-        result: void,
+        result: boolean,
     },
     'copy-node': {
         params: [
@@ -103,7 +102,7 @@ export interface message extends EditorMessageMap {
         params: [
             CreateNodeOptions,
         ],
-        result: string[],
+        result: string,
     },
     'remove-node': {
         params: [
@@ -115,7 +114,7 @@ export interface message extends EditorMessageMap {
         params: [
             ResetNodeOptions,
         ],
-        result: void,
+        result: boolean,
     },
     'reset-component': {
         params: [
@@ -127,13 +126,13 @@ export interface message extends EditorMessageMap {
         params: [
             ResetComponentOptions,
         ],
-        result: void,
+        result: boolean,
     },
     'create-component': {
         params: [
             CreateComponentOptions,
         ],
-        result: boolean,
+        result: void,
     },
     'remove-component': {
         params: [
@@ -148,12 +147,8 @@ export interface message extends EditorMessageMap {
         result: any,
     },
     'execute-scene-script': {
-        params: [] | [
-            {
-                name: string;
-                method: string;
-                args: any[];
-            }
+        params: [
+            ExecuteSceneScriptMethodOptions
         ],
         result: any,
     },
@@ -274,7 +269,7 @@ export interface message extends EditorMessageMap {
         params: [] | [
             string
         ],
-        result: INode[],
+        result: INode,
     },
     'query-nodes-by-asset-uuid': {
         params: [
@@ -294,7 +289,12 @@ export interface message extends EditorMessageMap {
     },
     'query-components': {
         params: [],
-        result: string[],
+        result: {
+            name: string;
+            cid: string;
+            path: string;
+            assetUuid: string;
+        }[],
     },
     'query-component-has-script': {
         params: [
@@ -314,7 +314,7 @@ export interface message extends EditorMessageMap {
     'is-native': {
         params:[
             queryIsNative
-        ]|[],
+        ] | [],
         result: boolean,
     }
 }

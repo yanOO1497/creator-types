@@ -22,4 +22,3 @@ declare class SceneCacheManager {
 export declare const sceneCacheManager: SceneCacheManager;
 export declare function formatTime(time: string): string;
 export {};
-//# sourceMappingURL=scene-cache.d.ts.map

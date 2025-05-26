@@ -41,4 +41,3 @@ declare class AnimationUndoCommand extends UndoCommand {
     applyData(data: any): Promise<void>;
 }
 export { AnimationUndoManager };
-//# sourceMappingURL=animation.d.ts.map

@@ -71,4 +71,3 @@ export interface IVec4Like {
     z: number;
     w: number;
 }
-//# sourceMappingURL=type-define.d.ts.map

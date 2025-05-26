@@ -72,4 +72,3 @@ export declare class ParticleManager implements ISceneEvents {
 }
 declare const _default: ParticleManager;
 export default _default;
-//# sourceMappingURL=particle.d.ts.map

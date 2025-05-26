@@ -10,4 +10,3 @@ declare class UuidArray {
     first(): string;
 }
 export default UuidArray;
-//# sourceMappingURL=uuid-array.d.ts.map

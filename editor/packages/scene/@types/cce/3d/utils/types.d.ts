@@ -28,4 +28,3 @@ declare function getInheritanceChain(klass: any): string[];
  */
 declare function getDefault(defaultVal: any): any;
 export { types, getTypeId, getInheritanceChain, getDefault };
-//# sourceMappingURL=types.d.ts.map

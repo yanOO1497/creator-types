@@ -11,4 +11,3 @@ declare class OverWrite {
 }
 declare const _default: OverWrite;
 export default _default;
-//# sourceMappingURL=overwrite.d.ts.map

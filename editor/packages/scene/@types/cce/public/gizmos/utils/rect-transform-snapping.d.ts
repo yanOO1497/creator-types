@@ -108,4 +108,3 @@ declare class RectTransformSnapping implements IRectSnapConfigData {
 }
 declare const rectTransformSnapping: RectTransformSnapping;
 export { SnapGuideline, SnapGuidelineGroup, RectTransformSnapping, IRectSnapConfigData, rectTransformSnapping, };
-//# sourceMappingURL=rect-transform-snapping.d.ts.map

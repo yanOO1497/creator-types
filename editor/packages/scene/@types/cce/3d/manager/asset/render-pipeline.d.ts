@@ -35,4 +35,3 @@ declare class EditRenderPipeline extends EditComponentAsset {
 }
 declare const _default: EditRenderPipeline;
 export default _default;
-//# sourceMappingURL=render-pipeline.d.ts.map

@@ -41,4 +41,3 @@ export declare enum IPCChannel {
     NativeSend = "native:send",
     NativeReply = "native:reply"
 }
-//# sourceMappingURL=utils.d.ts.map

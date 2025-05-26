@@ -11,4 +11,3 @@ export declare function assertIsNonNullable<T>(expr: T, message?: string): asser
  */
 export declare function assertIsTrue(expr: unknown, message?: string): asserts expr;
 export declare function assertsArrayIndex<T>(array: T[], index: number): void;
-//# sourceMappingURL=assertion.d.ts.map

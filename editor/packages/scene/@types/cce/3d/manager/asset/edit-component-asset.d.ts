@@ -31,4 +31,3 @@ declare class EditComponentAsset {
     updateComponent(dump: any): Promise<any>;
 }
 export default EditComponentAsset;
-//# sourceMappingURL=edit-component-asset.d.ts.map

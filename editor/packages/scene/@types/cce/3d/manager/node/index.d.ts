@@ -113,10 +113,9 @@ export declare class NodeManager extends EventEmitter implements ISceneEvents {
     queryNodesByAssetUuid(uuid: string): string[];
     /**
      * 获取丢失资源的节点
-     * @param
      * @returns uuids[] 节点数组
      */
-    queryNodesMissAsset(): string[];
+    queryNodesMissAsset(): Promise<string[]>;
     /**
      * 预览设置属性后的效果，不进入undo堆栈
      * @param uuid
@@ -230,6 +229,7 @@ export declare class NodeManager extends EventEmitter implements ISceneEvents {
      * @param name
      * @param stashUuid
      * @param keepWorldTransform
+     * @param keepLayer
      */
     createNode(uuid: string | null | undefined, name: any, stashUuid: string | null, keepWorldTransform?: boolean, keepLayer?: boolean): undefined | string;
     /**
@@ -298,4 +298,3 @@ export declare class NodeManager extends EventEmitter implements ISceneEvents {
 }
 declare const _default: NodeManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

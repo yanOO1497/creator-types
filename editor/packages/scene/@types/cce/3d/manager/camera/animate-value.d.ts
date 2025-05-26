@@ -25,4 +25,3 @@ export declare class AnimVec3 extends AnimateValueBase<Vec3> {
     protected getValue(): Vec3;
 }
 export {};
-//# sourceMappingURL=animate-value.d.ts.map

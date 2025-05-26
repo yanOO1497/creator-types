@@ -5,4 +5,3 @@ declare const intersect: {
     ray_segment: (ray: geometry.Ray, v0: Vec3, v1: Vec3, precision: number | undefined, hitPos: Vec3) => number;
 };
 export default intersect;
-//# sourceMappingURL=intersect.d.ts.map

@@ -27,4 +27,3 @@ interface EngineInterface {
     setLightData(component: any, lightData: any): void;
 }
 export default EngineInterface;
-//# sourceMappingURL=engine-interface.d.ts.map

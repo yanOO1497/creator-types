@@ -37,4 +37,3 @@ export declare class PluginManager implements ISceneEvents {
 }
 declare const _default: PluginManager;
 export default _default;
-//# sourceMappingURL=plugin.d.ts.map

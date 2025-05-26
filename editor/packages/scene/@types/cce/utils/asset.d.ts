@@ -6,4 +6,3 @@ import { Asset } from 'cc';
  * @returns 指定的资源。
  */
 export declare function loadAssetUncached<TAsset extends Asset = Asset>(uuid: string, type?: new () => TAsset): Promise<TAsset>;
-//# sourceMappingURL=asset.d.ts.map

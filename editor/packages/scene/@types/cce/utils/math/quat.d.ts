@@ -176,4 +176,3 @@ export declare class MQuat {
     static equals<Out extends IQuatLike>(a: Out, b: Out, epsilon?: number): boolean;
 }
 export {};
-//# sourceMappingURL=quat.d.ts.map

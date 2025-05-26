@@ -132,4 +132,3 @@ export declare function pingPong(t: number, length: number): number;
  * @return The ratio between [from, to].
  */
 export declare function inverseLerp(from: number, to: number, value: number): number;
-//# sourceMappingURL=utils.d.ts.map

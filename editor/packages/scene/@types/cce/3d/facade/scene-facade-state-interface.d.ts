@@ -21,4 +21,3 @@ interface ISceneFacadeState extends ISceneFacade, IState {
     fireCloseEvent(): void;
 }
 export { ISceneFacadeState, SceneModeType };
-//# sourceMappingURL=scene-facade-state-interface.d.ts.map

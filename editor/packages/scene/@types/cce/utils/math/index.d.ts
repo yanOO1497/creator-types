@@ -176,4 +176,3 @@ declare class EditorMath {
 }
 export default EditorMath;
 declare function _clamp(val: number, min: number, max: number): number;
-//# sourceMappingURL=index.d.ts.map

@@ -108,12 +108,19 @@ declare class PrefabUtil {
         targetPath: string[];
     };
     isSceneNode(node: Node): boolean;
+    /**
+     * 是否是嵌套的预制体
+     * @param node
+     * @private
+     */
+    private isNestedPrefab;
     getPrefabStateInfo(node: Node): {
         state: PrefabState;
         isUnwrappable: boolean;
         isRevertable: boolean;
         isApplicable: boolean;
         isAddedChild: boolean;
+        isNested: boolean;
         assetUuid: string;
     };
     getMountedRoot(nodeOrComp: Node | Component): Node | undefined;
@@ -122,7 +129,7 @@ declare class PrefabUtil {
     isMountedComponent(component: Component): boolean;
     getRemovedComponents(node: Node): Component[];
     checkToRemoveTargetOverride(source: Node | Component, root: Node | Scene | null): void;
-    findOutmostPrefabInstanceNodes(node: Node, instanceRoots: Node[]): void;
+    findOutmostPrefabInstanceNodes(node: Node | null, instanceRoots: Node[]): void;
     gatherPrefabInstanceRoots(rootNode: Node | Scene): void;
     isSubAsset(uuid: string): boolean;
     removePrefabInfo(node: Node): void;
@@ -161,4 +168,3 @@ declare class PrefabUtil {
 }
 declare const prefabUtils: PrefabUtil;
 export { prefabUtils, PrefabState };
-//# sourceMappingURL=utils.d.ts.map

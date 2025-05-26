@@ -4,4 +4,3 @@ interface IState {
     exit(): Promise<void>;
 }
 export default IState;
-//# sourceMappingURL=state-interface.d.ts.map

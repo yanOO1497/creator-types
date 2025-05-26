@@ -28,4 +28,3 @@ declare class MeshPreview extends InteractivePreview {
     setLightEnable(enable: boolean): void;
 }
 export { MeshPreview };
-//# sourceMappingURL=index.d.ts.map

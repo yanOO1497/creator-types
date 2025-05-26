@@ -9,4 +9,3 @@ export interface EngineAddon {
     tick(): void;
 }
 export declare function importNativeEngine(enginePath: string): Promise<EngineAddon>;
-//# sourceMappingURL=adapter-util.d.ts.map

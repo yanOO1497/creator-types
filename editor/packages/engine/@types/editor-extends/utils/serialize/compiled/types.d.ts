@@ -1,5 +1,3 @@
-/// <reference path="../../../../../../../../resources/3d/engine/bin/.declarations/cc.d.ts" />
-/// <reference types="@cocos/creator-types/engine/cc" />
 import { deserialize } from 'cc';
 import D = deserialize.Internal;
 type OtherObjectData = D.OtherObjectData_;
@@ -13,11 +11,11 @@ type IDictData = D.IDictData_;
 type IMask = D.IMask_;
 type IClass = D.IClass_;
 export declare class TraceableItem {
-    result: any;
     private tracers;
     private keys;
     static compareByRefCount(lhs: TraceableItem, rhs: TraceableItem): number;
     private static readonly NO_RESULT;
+    result: any;
     constructor();
     traceBy(tracer: object, key: (string | number)): void;
     movedTo(index: number): void;

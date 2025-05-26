@@ -9,4 +9,3 @@ declare class RealCurveDump implements DumpInterface {
 }
 export declare const realCurveDump: RealCurveDump;
 export {};
-//# sourceMappingURL=real-curve-dump.d.ts.map

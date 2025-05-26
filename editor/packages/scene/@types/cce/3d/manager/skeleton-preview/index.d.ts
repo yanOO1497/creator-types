@@ -12,4 +12,3 @@ declare class SkeletonPreview extends InteractivePreview {
     resetCamera(): void;
 }
 export { SkeletonPreview };
-//# sourceMappingURL=index.d.ts.map

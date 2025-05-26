@@ -42,4 +42,3 @@ declare class DeviceAdapter {
 declare const WebAdapter: DeviceAdapter;
 declare const NativeAdapter: DeviceAdapter;
 export { WebAdapter, NativeAdapter };
-//# sourceMappingURL=device-adapter.d.ts.map

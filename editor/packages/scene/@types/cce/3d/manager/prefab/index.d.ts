@@ -87,4 +87,3 @@ export declare class PrefabManager implements ISceneEvents {
 }
 declare const _default: PrefabManager;
 export default _default;
-//# sourceMappingURL=index.d.ts.map

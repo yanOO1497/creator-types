@@ -24,4 +24,3 @@ declare class MaterialPreview extends InteractivePreview {
     resetCamera(): void;
 }
 export { MaterialPreview };
-//# sourceMappingURL=index.d.ts.map

@@ -9,7 +9,7 @@ export declare class Grid {
     constructor(rootNode: Node, synchronizeCamera: Camera);
     private _hide;
     hide(): void;
+    show(): void;
     _updateGridData(positions: number[], colors: number[], lineColor: Color, lineEnd?: number | null): void;
     updateGrid(): void;
 }
-//# sourceMappingURL=grid.d.ts.map

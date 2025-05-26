@@ -29,4 +29,3 @@ export default class EditorCameraComponent extends Camera {
     onDestroy(): void;
     _createCamera(): void;
 }
-//# sourceMappingURL=editor-camera-components.d.ts.map

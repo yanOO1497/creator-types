@@ -7,4 +7,3 @@ declare class UnitTestManager {
 }
 declare const unitTestMgr: UnitTestManager;
 export { unitTestMgr };
-//# sourceMappingURL=index.d.ts.map

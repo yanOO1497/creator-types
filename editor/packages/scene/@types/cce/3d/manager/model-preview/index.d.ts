@@ -85,4 +85,3 @@ declare class ModelPreview extends InteractivePreview {
     }): Promise<boolean>;
 }
 export { ModelPreview };
-//# sourceMappingURL=index.d.ts.map

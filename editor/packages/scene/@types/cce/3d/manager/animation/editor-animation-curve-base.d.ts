@@ -46,4 +46,3 @@ declare abstract class EditorAnimationCurveBase {
     abstract modifyCurveOfKey(frame: number, data: ICurveData): Promise<boolean>;
 }
 export default EditorAnimationCurveBase;
-//# sourceMappingURL=editor-animation-curve-base.d.ts.map

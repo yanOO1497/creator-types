@@ -90,4 +90,3 @@ export default class ray {
     constructor(ox?: number, oy?: number, oz?: number, dx?: number, dy?: number, dz?: number);
     computeHit(out: IVec3Like, distance: number): void;
 }
-//# sourceMappingURL=ray.d.ts.map

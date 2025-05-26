@@ -1,4 +1,3 @@
-
 declare module 'gltf-validator' {
     /**
      * Returns a version string.

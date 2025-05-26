@@ -97,4 +97,3 @@ declare enum TangentMode {
     NONE = 3
 }
 export { IPropData, IPropDumpData, ICurveDumpData, IPassDumpData, IAnimData, IDumpClip, TargetModifier, IValueProxyFactory, IAnimationClipData, IPropCustomData, CompressedEasingMethods, IKeyframe, ISharedClipData, ICurveInfo, ICurveData, TangentMode, };
-//# sourceMappingURL=type-defines.d.ts.map

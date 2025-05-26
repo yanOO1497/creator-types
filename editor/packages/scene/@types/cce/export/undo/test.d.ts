@@ -4,4 +4,3 @@ export declare class TestComponent extends Component {
     update(deltaTime: number): void;
 }
 export declare function test(): void;
-//# sourceMappingURL=test.d.ts.map

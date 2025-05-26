@@ -11,4 +11,3 @@ declare class External {
 }
 declare const external: External;
 export default external;
-//# sourceMappingURL=external.d.ts.map

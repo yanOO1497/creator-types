@@ -127,4 +127,3 @@ export default class aabb {
      */
     copy(a: aabb): aabb;
 }
-//# sourceMappingURL=aabb.d.ts.map

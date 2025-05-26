@@ -41,4 +41,3 @@ declare class PreviewBuffer extends EventEmitter {
     getImageData(width: number, height: number): Promise<any>;
 }
 export default PreviewBuffer;
-//# sourceMappingURL=buffer.d.ts.map

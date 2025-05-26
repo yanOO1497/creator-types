@@ -33,4 +33,3 @@ declare const _default: {
     decodeTargetOverrides: typeof decodeTargetOverrides;
 };
 export default _default;
-//# sourceMappingURL=decode.d.ts.map

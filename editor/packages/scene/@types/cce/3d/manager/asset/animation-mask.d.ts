@@ -8,4 +8,3 @@ declare class EditAnimationMask extends EditComponentAsset {
 }
 declare const _default: EditAnimationMask;
 export default _default;
-//# sourceMappingURL=animation-mask.d.ts.map

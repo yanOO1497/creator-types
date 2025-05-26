@@ -39,4 +39,3 @@ declare class Grid {
     updateRange(): void;
 }
 export default Grid;
-//# sourceMappingURL=index.d.ts.map

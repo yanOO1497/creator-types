@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { Node, Camera, Vec3, MeshRenderer, ISizeLike } from 'cc';
+import { Node, Camera, Vec3, MeshRenderer, ISizeLike, Color } from 'cc';
 import { EventEmitter } from 'events';
 import { CameraMoveMode } from './utils';
 import { EditorCameraInfo } from '../../../../../@types/private';
@@ -7,9 +7,16 @@ declare abstract class CameraControllerBase extends EventEmitter {
     protected _camera: Camera;
     protected camera_move_mode: CameraMoveMode;
     protected _gridMeshComp: MeshRenderer;
-    protected _gridNode: Node;
+    protected _originAxisHorizontalMeshComp: MeshRenderer;
+    protected _originAxisVerticalMeshComp: MeshRenderer;
     node: Node;
     protected _isGridVisible: boolean;
+    protected originAxisX_Visible: boolean;
+    protected originAxisY_Visible: boolean;
+    protected originAxisZ_Visible: boolean;
+    protected readonly originAxisX_Color: Color;
+    protected readonly originAxisY_Color: Color;
+    protected readonly originAxisZ_Color: Color;
     protected _near: number;
     protected _far: number;
     protected _wheelSpeed: number;
@@ -26,6 +33,7 @@ declare abstract class CameraControllerBase extends EventEmitter {
     alignNodeToSceneView(nodes: string[]): void;
     alignSceneViewToNode(nodes: string[]): void;
     abstract isMoving(): boolean;
+    onMouseDBlDown(event: any): void;
     onMouseDown(event: any): void;
     onMouseMove(event: any): void;
     onMouseUp(event: any): void;
@@ -47,4 +55,3 @@ declare abstract class CameraControllerBase extends EventEmitter {
     zoomReset(): void;
 }
 export default CameraControllerBase;
-//# sourceMappingURL=camera-controller-base.d.ts.map

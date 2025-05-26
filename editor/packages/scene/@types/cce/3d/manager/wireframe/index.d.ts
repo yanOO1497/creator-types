@@ -56,4 +56,3 @@ export declare class ModelWireframe implements ISceneEvents {
 }
 declare const modelWireframe: ModelWireframe;
 export default modelWireframe;
-//# sourceMappingURL=index.d.ts.map

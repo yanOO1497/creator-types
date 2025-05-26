@@ -25,4 +25,3 @@ export default class SimpleSet<T> extends Set<T> {
     filter(callbackfn: (value: T, index: T, array: Set<T>) => boolean, thisArg?: any): SimpleSet<T>;
 }
 export declare function toSet<T>(array: Array<T>): SimpleSet<T>;
-//# sourceMappingURL=set-util.d.ts.map

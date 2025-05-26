@@ -32,4 +32,3 @@ declare class LinearTicks {
     levelForStep(step: number): number;
 }
 export default LinearTicks;
-//# sourceMappingURL=linear-ticks.d.ts.map

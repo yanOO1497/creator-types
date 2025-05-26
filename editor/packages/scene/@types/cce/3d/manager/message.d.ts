@@ -6,4 +6,3 @@ declare class MessageManager {
 }
 declare const messageManager: MessageManager;
 export { messageManager };
-//# sourceMappingURL=message.d.ts.map

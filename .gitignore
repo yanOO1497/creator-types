@@ -10,6 +10,7 @@ yarn-error.log
 # 忽略本地配置文件（例如，配置文件包含敏感信息）
 config.js
 .env
+.npmrc
 
 # 忽略依赖管理文件（可以用于避免冲突）
 package-lock.json

@@ -33,4 +33,3 @@ declare const _default: {
     ccClassAttrPropertyDefaultValue: typeof ccClassAttrPropertyDefaultValue;
 };
 export default _default;
-//# sourceMappingURL=utils.d.ts.map

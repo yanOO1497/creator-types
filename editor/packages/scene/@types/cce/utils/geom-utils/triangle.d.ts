@@ -104,4 +104,3 @@ export default class triangle {
      */
     constructor(ax?: number, ay?: number, az?: number, bx?: number, by?: number, bz?: number, cx?: number, cy?: number, cz?: number);
 }
-//# sourceMappingURL=triangle.d.ts.map
